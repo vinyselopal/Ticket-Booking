@@ -24,7 +24,7 @@ const seats = {
 const inputParser = (input) => {
   const [totalPassengersString, ...passengersStrings] = input.split('\n')
 
-  parsedPassengers = passengersStrings.map(passenger => {
+  const parsedPassengers = passengersStrings.map(passenger => {
     const [name, ageString, gender] = passenger.split(' ')
     return { name, age: parseInt(ageString, 10), gender }
   })
