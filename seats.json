@@ -1,1 +1,1 @@
-{"seats":[{"seatNumber":1,"bookedBy":"Viny"},{"seatNumber":2,"bookedBy":null},{"seatNumber":3,"bookedBy":null},{"seatNumber":4,"bookedBy":null}],"totalSeats":4,"unbookedSeats":0}
+{"seats":[{"seatNumber":1,"bookedBy":"Viny"},{"seatNumber":2,"bookedBy":"Viny"},{"seatNumber":3,"bookedBy":null},{"seatNumber":4,"bookedBy":null}],"totalSeats":4,"unbookedSeats":-1}

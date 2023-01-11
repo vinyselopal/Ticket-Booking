@@ -3,28 +3,6 @@ const fs = require('fs')
 
 const paymentData = JSON.parse(fs.readFileSync('./paymentData.json', 'utf8'))
 
-const mockAvailableSeats = {
-  seats: [
-    {
-      seatNumber: 1,
-      bookedBy: null
-    }
-  ],
-  totalSeats: 1,
-  unbookedSeats: 1
-}
-
-const mockUnavailableSeats = {
-  seats: [
-    {
-      seatNumber: 1,
-      bookedBy: 'Person1'
-    }
-  ],
-  totalSeats: 1,
-  unbookedSeats: 0
-}
-
 test('return new seats data and bookings', () => {
   expect(bookSeats(JSON.stringify(mockAvailableSeats),
     1,
