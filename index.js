@@ -58,6 +58,7 @@ const main = (input) => {
   const output = 'Total Amount: ' + paymentAmount + '\n' + 'Seats alloted: ' + bookings.join(' ')
 
   console.log(output)
+  return output
 }
 
 const passengerParser = (input) => {

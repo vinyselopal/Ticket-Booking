@@ -24,17 +24,31 @@ test('return new seats data and bookings', () => {
     })
 })
 
-// test('parse input', () => {
-//   expect(inputParser('1\nViny 24 F\ncard'))
-//     .toStrictEqual({ totalPassengers: 1, passengers: [{ name: 'Viny', age: 24, gender: 'F' }], paymentMethod: 'card' })
-// })
-
 test('calculate payment', () => {
   expect(calculatePayment(paymentData, 2, 'card'))
     .toBe(1034.8)
 })
 
-test('book seat (available)', () => {
-  expect(main('1\nViny 24 F\ncard'))
+test('return output string for user', () => {
+  expect(main({
+    totalPassengers: 1,
+    passengers: [
+      {
+        name: 'A',
+        age: 20,
+        gender: 'F'
+      }
+    ],
+    paymentMethod: 'card'
+  }))
     .toBe('Total Amount: 517.4\nSeats alloted: S1')
+})
+
+test('parses passenger details string', () => {
+  expect(passengerParser('A 20 F'))
+    .toStrictEqual({
+      name: 'A',
+      age: 20,
+      gender: 'F'
+    })
 })
