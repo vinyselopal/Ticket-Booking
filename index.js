@@ -1,13 +1,21 @@
 const fs = require('fs')
 
 const inputParser = (input) => {
-  const [totalPassengersString, ...passengersStrings] = input.split('\n') // get passengersStrings according to number of passengers
+  const [totalPassengersString, ...rest] = input.split('\n') // get passengersStrings according to number of passengers
+
+  const paymentMethod = rest[rest.length - 1]
+  const passengersStrings = rest.slice(0, rest.length - 1)
+  console.log(rest)
 
   const parsedPassengers = passengersStrings.map(passenger => {
     const [name, ageString, gender] = passenger.split(' ')
     return { name, age: parseInt(ageString, 10), gender }
   })
-  return { totalPassengers: parseInt(totalPassengersString, 10), passengers: parsedPassengers }
+  return {
+    totalPassengers: parseInt(totalPassengersString, 10),
+    passengers: parsedPassengers,
+    paymentMethod
+  }
 }
 
 const calculatePayment = (paymentData, numberOfSeats, paymentMethod) => {
@@ -22,7 +30,7 @@ const calculatePayment = (paymentData, numberOfSeats, paymentMethod) => {
 const main = (input) => {
   const seats = JSON.parse(fs.readFileSync('./seats.json', 'utf8'))
 
-  const { totalPassengers, passengers } = inputParser(input)
+  const { totalPassengers, passengers, paymentMethod } = inputParser(input)
   const { bookings, newSeats } = bookSeats(JSON.stringify(seats), totalPassengers, passengers)
 
   if (!bookings.length) {
@@ -31,7 +39,7 @@ const main = (input) => {
 
   const paymentData = JSON.parse(fs.readFileSync('./paymentData.json', 'utf8'))
 
-  const paymentAmount = calculatePayment(paymentData, totalPassengers, 'card') // hard coding payment method input without parsing
+  const paymentAmount = calculatePayment(paymentData, totalPassengers, paymentMethod) // hard coding payment method input without parsing
 
   fs.writeFileSync('./seats.json', JSON.stringify(newSeats))
   const output = 'Total Amount: ' + paymentAmount + '\n' + 'Seats alloted: ' + bookings.join(' ')
