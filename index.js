@@ -30,7 +30,12 @@ const main = (input) => {
     return 'Failed, seats are not available'
   }
 
+  const paymentData = JSON.parse(fs.readFileSync('./paymentData.json', 'utf8'))
+
+  const paymentAmount = calculatePayment(paymentData, totalPassengers, 'card') // hard coding payment method input without parsing
+
   fs.writeFileSync('./seats.json', JSON.stringify(newSeats))
+  const output = 'Total Amount: ' + paymentAmount + '\n' + 'Seats alloted: ' + bookings.join(' ')
 
   return output
 }
