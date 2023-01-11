@@ -1,7 +1,7 @@
 const fs = require('fs')
 
 const inputParser = (input) => {
-  const [totalPassengersString, ...rest] = input.split('\n') // get passengersStrings according to number of passengers
+  const [totalPassengersString, ...rest] = input.split('\n')
 
   const paymentMethod = rest[rest.length - 1]
   const passengersStrings = rest.slice(0, rest.length - 1)
@@ -39,7 +39,7 @@ const main = (input) => {
 
   const paymentData = JSON.parse(fs.readFileSync('./paymentData.json', 'utf8'))
 
-  const paymentAmount = calculatePayment(paymentData, totalPassengers, paymentMethod) // hard coding payment method input without parsing
+  const paymentAmount = calculatePayment(paymentData, totalPassengers, paymentMethod)
 
   fs.writeFileSync('./seats.json', JSON.stringify(newSeats))
   const output = 'Total Amount: ' + paymentAmount + '\n' + 'Seats alloted: ' + bookings.join(' ')
