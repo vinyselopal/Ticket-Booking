@@ -41,7 +41,7 @@ const bookSeats = (seats, totalPassengers, passengers) => {
 }
 
 const main = (input) => {
-  const seats = JSON.parse(fs.readFileSync('./seats2.json', 'utf8'))
+  const seats = JSON.parse(fs.readFileSync('./seats.json', 'utf8'))
 
   const { totalPassengers, passengers, paymentMethod } = input
   const { bookings, newSeats } = bookSeats(seats, totalPassengers, passengers)
@@ -54,7 +54,7 @@ const main = (input) => {
 
   const paymentAmount = calculatePayment(paymentData, totalPassengers, paymentMethod)
 
-  fs.writeFileSync('./seats2.json', JSON.stringify(newSeats))
+  fs.writeFileSync('./seats.json', JSON.stringify(newSeats))
   const output = 'Total Amount: ' + paymentAmount + '\n' + 'Seats alloted: ' + bookings.join(' ')
 
   console.log(output)
