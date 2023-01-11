@@ -11,12 +11,11 @@ const inputParser = (input) => {
 }
 
 const calculatePayment = (paymentData, numberOfSeats, paymentMethod) => {
-  // paymentData is an object with tax, service charge, ticket and discount, upi/wallet
   const discount = paymentData.discounts[paymentMethod]
   const additionalFees = Object.values(paymentData['additional-fees']).reduce((prev, curr) => prev + curr, 0)
-  console.log(discount)
   const ticket = paymentData.ticket
-  const paymentAmount = ticket * (1 - (discount / 100)) * (1 + (additionalFees / 100))
+
+  const paymentAmount = ticket * (1 - (discount / 100)) * (1 + (additionalFees / 100)) * numberOfSeats
   return paymentAmount
 }
 

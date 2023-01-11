@@ -62,5 +62,5 @@ test('parse input', () => {
 
 test('calculate payment', () => {
   expect(calculatePayment(paymentData, 2, 'card'))
-    .toBe(517.4)
+    .toBe(1034.8)
 })
