@@ -1,26 +1,32 @@
-const { main, getUserInput, bookSeats, calculatePayment, passengerParser } = require('./index')
+const { main, getUserInput, bookSeats, calculatePayment, passengerParser, resetSeatsData } = require('./index')
 const fs = require('fs')
 
 const paymentData = JSON.parse(fs.readFileSync('./paymentData.json', 'utf8'))
 const seatsString = fs.readFileSync('./seats.json', 'utf8')
 
 test('return new seats data and bookings', () => {
-  expect(bookSeats(seatsString,
+  expect(bookSeats(
+    [
+      {
+        seatNumber: 1,
+        bookedBy: null,
+        bookedAt: null
+      }
+    ],
     1,
     [{ name: 'Viny', age: 24, gender: 'F' }])
   )
     .toStrictEqual({
       bookings: ['S1'],
-      newSeats: {
-        seats: [
+      newSeats:
+        [
           {
             seatNumber: 1,
-            bookedBy: 'Viny'
+            bookedBy: { name: 'Viny', age: 24, gender: 'F' },
+            bookedAt: null
           }
-        ],
-        totalSeats: 1,
-        unbookedSeats: 0
-      }
+        ]
+
     })
 })
 

@@ -34,15 +34,13 @@ const bookSeats = (seats, totalPassengers, passengers) => {
   const bookings = []
   let counter = 0
 
-  newSeats.seats.forEach((seat) => {
+  newSeats.forEach((seat) => {
     if (!seat.bookedBy && counter < passengers.length) {
       bookings.push('S' + seat.seatNumber)
       seat.bookedBy = passengers[counter]
       counter++
     }
   })
-
-  newSeats.unbookedSeats = newSeats.unbookedSeats - passengers.length
 
   return {
     bookings,
@@ -111,5 +109,6 @@ module.exports = {
   getUserInput,
   bookSeats,
   calculatePayment,
-  passengerParser
+  passengerParser,
+  resetSeatsData
 }
