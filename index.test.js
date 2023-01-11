@@ -45,16 +45,6 @@ test('return new seats data and bookings', () => {
     })
 })
 
-// test('book seat (available)', () => {
-//   expect(main(mockAvailableSeats, '1\nViny Selopal 24 F'))
-//     .toBe('Seats alloted: S1')
-// })
-
-// test('book seat (unavailable)', () => {
-//   expect(main(mockUnavailableSeats, '1\nViny Selopal 24 F'))
-//     .toBe('Failed, seats are not available')
-// })
-
 test('parse input', () => {
   expect(inputParser('1\nViny 24 F'))
     .toStrictEqual({ totalPassengers: 1, passengers: [{ name: 'Viny', age: 24, gender: 'F' }] })
@@ -63,4 +53,9 @@ test('parse input', () => {
 test('calculate payment', () => {
   expect(calculatePayment(paymentData, 2, 'card'))
     .toBe(1034.8)
+})
+
+test('book seat (available)', () => {
+  expect(main('1\nViny Selopal 24 F\ncard'))
+    .toBe('Seats alloted: S1')
 })
