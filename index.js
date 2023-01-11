@@ -1,22 +1,5 @@
 const fs = require('fs')
-
-const inputParser = (input) => {
-  const [totalPassengersString, ...rest] = input.split('\n')
-
-  const paymentMethod = rest[rest.length - 1]
-  const passengersStrings = rest.slice(0, rest.length - 1)
-  console.log(rest)
-
-  const parsedPassengers = passengersStrings.map(passenger => {
-    const [name, ageString, gender] = passenger.split(' ')
-    return { name, age: parseInt(ageString, 10), gender }
-  })
-  return {
-    totalPassengers: parseInt(totalPassengersString, 10),
-    passengers: parsedPassengers,
-    paymentMethod
-  }
-}
+const readline = require('readline').createInterface(process.stdin)
 
 const calculatePayment = (paymentData, numberOfSeats, paymentMethod) => {
   const discount = paymentData.discounts[paymentMethod]
@@ -27,28 +10,8 @@ const calculatePayment = (paymentData, numberOfSeats, paymentMethod) => {
   return paymentAmount
 }
 
-const main = (input) => {
-  const seats = JSON.parse(fs.readFileSync('./seats.json', 'utf8'))
-
-  const { totalPassengers, passengers, paymentMethod } = inputParser(input)
-  const { bookings, newSeats } = bookSeats(JSON.stringify(seats), totalPassengers, passengers)
-
-  if (!bookings.length) {
-    return 'Failed, seats are not available'
-  }
-
-  const paymentData = JSON.parse(fs.readFileSync('./paymentData.json', 'utf8'))
-
-  const paymentAmount = calculatePayment(paymentData, totalPassengers, paymentMethod)
-
-  fs.writeFileSync('./seats.json', JSON.stringify(newSeats))
-  const output = 'Total Amount: ' + paymentAmount + '\n' + 'Seats alloted: ' + bookings.join(' ')
-
-  return output
-}
-
 const bookSeats = (seats, totalPassengers, passengers) => {
-  const newSeats = JSON.parse(seats)
+  const newSeats = seats
   const bookedSeats = seats.bookedSeats
 
   if (totalPassengers > bookedSeats) {
@@ -64,7 +27,7 @@ const bookSeats = (seats, totalPassengers, passengers) => {
   newSeats.seats.forEach((seat) => {
     if (!seat.bookedBy && counter < passengers.length) {
       bookings.push('S' + seat.seatNumber)
-      seat.bookedBy = passengers[counter].name
+      seat.bookedBy = passengers[counter]
       counter++
     }
   })
@@ -77,9 +40,65 @@ const bookSeats = (seats, totalPassengers, passengers) => {
   }
 }
 
+const main = (input) => {
+  const seats = JSON.parse(fs.readFileSync('./seats2.json', 'utf8'))
+
+  const { totalPassengers, passengers, paymentMethod } = input
+  const { bookings, newSeats } = bookSeats(seats, totalPassengers, passengers)
+
+  if (!bookings.length) {
+    return console.log('Failed, seats are not available')
+  }
+
+  const paymentData = JSON.parse(fs.readFileSync('./paymentData.json', 'utf8'))
+
+  const paymentAmount = calculatePayment(paymentData, totalPassengers, paymentMethod)
+
+  fs.writeFileSync('./seats2.json', JSON.stringify(newSeats))
+  const output = 'Total Amount: ' + paymentAmount + '\n' + 'Seats alloted: ' + bookings.join(' ')
+
+  console.log(output)
+}
+
+const passengerParser = (input) => {
+  const [name, ageString, gender] = input.split(' ')
+  return { name, age: parseInt(ageString, 10), gender }
+}
+
+const getUserInput = () => {
+  const input = {
+    totalPassengers: 0,
+    passengers: [],
+    paymentMethod: null
+  }
+
+  let lineNumber = -1
+
+  const readInputs = (line) => {
+    lineNumber++
+
+    if (lineNumber === 0) {
+      const totalPassengers = parseInt(line.trim())
+      input.totalPassengers = totalPassengers
+    } else if (lineNumber <= input.totalPassengers) {
+      input.passengers.push(passengerParser(line))
+    }
+    if (lineNumber > input.totalPassengers) {
+      input.paymentMethod = line
+      readline.close()
+    }
+  }
+
+  readline.on('line', readInputs)
+  readline.on('close', () => main(input))
+}
+
+getUserInput()
+
 module.exports = {
   main,
-  inputParser,
+  getUserInput,
   bookSeats,
-  calculatePayment
+  calculatePayment,
+  passengerParser
 }

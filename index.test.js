@@ -1,10 +1,11 @@
-const { main, inputParser, bookSeats, calculatePayment } = require('./index')
+const { main, getUserInput, bookSeats, calculatePayment, passengerParser } = require('./index')
 const fs = require('fs')
 
 const paymentData = JSON.parse(fs.readFileSync('./paymentData.json', 'utf8'))
+const seatsString = fs.readFileSync('./seats.json', 'utf8')
 
 test('return new seats data and bookings', () => {
-  expect(bookSeats(JSON.stringify(mockAvailableSeats),
+  expect(bookSeats(seatsString,
     1,
     [{ name: 'Viny', age: 24, gender: 'F' }])
   )
@@ -23,10 +24,10 @@ test('return new seats data and bookings', () => {
     })
 })
 
-test('parse input', () => {
-  expect(inputParser('1\nViny 24 F\ncard'))
-    .toStrictEqual({ totalPassengers: 1, passengers: [{ name: 'Viny', age: 24, gender: 'F' }], paymentMethod: 'card' })
-})
+// test('parse input', () => {
+//   expect(inputParser('1\nViny 24 F\ncard'))
+//     .toStrictEqual({ totalPassengers: 1, passengers: [{ name: 'Viny', age: 24, gender: 'F' }], paymentMethod: 'card' })
+// })
 
 test('calculate payment', () => {
   expect(calculatePayment(paymentData, 2, 'card'))
