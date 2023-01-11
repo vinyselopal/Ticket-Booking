@@ -1,6 +1,16 @@
 const fs = require('fs')
 const readline = require('readline').createInterface(process.stdin)
 
+const resetSeatsData = () => {
+  const seats = JSON.parse(fs.readFileSync('./seats.json', 'utf8'))
+
+  const newSeatsData = seats.map(seat => {
+    return { ...seat, bookedBy: null }
+  })
+
+  fs.writeFileSync('./seats.json', JSON.stringify(newSeatsData))
+}
+
 const calculatePayment = (paymentData, numberOfSeats, paymentMethod) => {
   const discount = paymentData.discounts[paymentMethod]
   const additionalFees = Object.values(paymentData['additional-fees']).reduce((prev, curr) => prev + curr, 0)
@@ -93,7 +103,7 @@ const getUserInput = () => {
   readline.on('line', readInputs)
   readline.on('close', () => main(input))
 }
-
+resetSeatsData()
 getUserInput()
 
 module.exports = {
