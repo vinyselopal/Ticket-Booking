@@ -1,4 +1,5 @@
 const fs = require('fs')
+const moment = require('moment')
 const readline = require('readline').createInterface(process.stdin)
 
 const resetSeatsData = () => {
@@ -34,10 +35,13 @@ const bookSeats = (seats, totalPassengers, passengers) => {
   const bookings = []
   let counter = 0
 
+  const bookedAt = moment().format('MMMM Do YYYY, h:mm:ss a')
+
   newSeats.forEach((seat) => {
     if (!seat.bookedBy && counter < passengers.length) {
       bookings.push('S' + seat.seatNumber)
       seat.bookedBy = passengers[counter]
+      seat.bookedAt = bookedAt
       counter++
     }
   })
