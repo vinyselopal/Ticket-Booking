@@ -12,18 +12,21 @@ const resetSeatsData = () => {
   fs.writeFileSync('./seats.json', JSON.stringify(newSeatsData))
 }
 
-const calculatePayment = (paymentData, numberOfSeats, paymentMethod) => {
+const calculatePayment = (paymentData, input) => {
+  const { totalPassengers, paymentMethod } = input
   const discount = paymentData.discounts[paymentMethod]
   const additionalFees = Object.values(paymentData['additional-fees']).reduce((prev, curr) => prev + curr, 0)
   const ticket = paymentData.ticket
 
-  const paymentAmount = ticket * (1 - (discount / 100)) * (1 + (additionalFees / 100)) * numberOfSeats
+  const paymentAmount = ticket * (1 - (discount / 100)) * (1 + (additionalFees / 100)) * totalPassengers
   return paymentAmount
 }
 
-const bookSeats = (seats, totalPassengers, passengers) => {
+const bookSeats = (seats, input) => {
   const newSeats = seats
   const bookedSeats = seats.bookedSeats
+
+  const { totalPassengers, passengers } = input
 
   if (totalPassengers > bookedSeats) {
     return {
@@ -55,8 +58,7 @@ const bookSeats = (seats, totalPassengers, passengers) => {
 const main = (input) => {
   const seats = JSON.parse(fs.readFileSync('./seats.json', 'utf8'))
 
-  const { totalPassengers, passengers, paymentMethod } = input
-  const { bookings, newSeats } = bookSeats(seats, totalPassengers, passengers)
+  const { bookings, newSeats } = bookSeats(seats, input)
 
   if (!bookings.length) {
     return console.log('Failed, seats are not available')
@@ -64,7 +66,7 @@ const main = (input) => {
 
   const paymentData = JSON.parse(fs.readFileSync('./paymentData.json', 'utf8'))
 
-  const paymentAmount = calculatePayment(paymentData, totalPassengers, paymentMethod)
+  const paymentAmount = calculatePayment(paymentData, input)
 
   fs.writeFileSync('./seats.json', JSON.stringify(newSeats))
   const output = 'Total Amount: ' + paymentAmount + '\n' + 'Seats alloted: ' + bookings.join(' ')
@@ -105,6 +107,7 @@ const getUserInput = () => {
   readline.on('line', readInputs)
   readline.on('close', () => main(input))
 }
+
 resetSeatsData()
 getUserInput()
 

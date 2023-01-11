@@ -1,8 +1,15 @@
 const { main, getUserInput, bookSeats, calculatePayment, passengerParser, resetSeatsData } = require('./index')
 const fs = require('fs')
+const moment = require('moment')
 
 const paymentData = JSON.parse(fs.readFileSync('./paymentData.json', 'utf8'))
 const seatsString = fs.readFileSync('./seats.json', 'utf8')
+
+const mockInput = {
+  totalPassengers: 1,
+  passengers: [{ name: 'Viny', age: 24, gender: 'F' }],
+  paymentMethod: 'card'
+}
 
 test('return new seats data and bookings', () => {
   expect(bookSeats(
@@ -13,8 +20,7 @@ test('return new seats data and bookings', () => {
         bookedAt: null
       }
     ],
-    1,
-    [{ name: 'Viny', age: 24, gender: 'F' }])
+    mockInput)
   )
     .toStrictEqual({
       bookings: ['S1'],
@@ -23,7 +29,7 @@ test('return new seats data and bookings', () => {
           {
             seatNumber: 1,
             bookedBy: { name: 'Viny', age: 24, gender: 'F' },
-            bookedAt: null
+            bookedAt: moment().format('MMMM Do YYYY, h:mm:ss a')
           }
         ]
 
@@ -31,8 +37,8 @@ test('return new seats data and bookings', () => {
 })
 
 test('calculate payment', () => {
-  expect(calculatePayment(paymentData, 2, 'card'))
-    .toBe(1034.8)
+  expect(calculatePayment(paymentData, mockInput))
+    .toBe(517.4)
 })
 
 test('return output string for user', () => {
