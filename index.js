@@ -1,28 +1,7 @@
-const seats = {
-  seats: [
-    {
-      seatNumber: 1,
-      bookedBy: null
-    },
-    {
-      seatNumber: 2,
-      bookedBy: null
-    },
-    {
-      seatNumber: 3,
-      bookedBy: null
-    },
-    {
-      seatNumber: 4,
-      bookedBy: null
-    }
-  ],
-  totalSeats: 4,
-  unbookedSeats: 4
-}
+const fs = require('fs')
 
 const inputParser = (input) => {
-  const [totalPassengersString, ...passengersStrings] = input.split('\n')
+  const [totalPassengersString, ...passengersStrings] = input.split('\n') // get passengersStrings according to number of passengers
 
   const parsedPassengers = passengersStrings.map(passenger => {
     const [name, ageString, gender] = passenger.split(' ')
@@ -31,11 +10,28 @@ const inputParser = (input) => {
   return { totalPassengers: parseInt(totalPassengersString, 10), passengers: parsedPassengers }
 }
 
-const main = (seats, input) => {
+const calculatePayment = (paymentData, numberOfSeats, paymentMethod) => {
+  // paymentData is an object with tax, service charge, ticket and discount, upi/wallet
+  const discount = paymentData.discounts[paymentMethod]
+  const additionalFees = Object.values(paymentData['additional-fees']).reduce((prev, curr) => prev + curr, 0)
+  console.log(discount)
+  const ticket = paymentData.ticket
+  const paymentAmount = ticket * (1 - (discount / 100)) * (1 + (additionalFees / 100))
+  return paymentAmount
+}
+
+const main = (input) => {
+  const seats = JSON.parse(fs.readFileSync('./seats.json', 'utf8'))
+
   const { totalPassengers, passengers } = inputParser(input)
   const { bookings, newSeats } = bookSeats(JSON.stringify(seats), totalPassengers, passengers)
 
-  const output = bookings.length ? 'Seats alloted: ' + bookings.join(' ') : 'Failed, seats are not available'
+  if (!bookings.length) {
+    return 'Failed, seats are not available'
+  }
+
+  fs.writeFileSync('./seats.json', JSON.stringify(newSeats))
+
   return output
 }
 
@@ -72,5 +68,6 @@ const bookSeats = (seats, totalPassengers, passengers) => {
 module.exports = {
   main,
   inputParser,
-  bookSeats
+  bookSeats,
+  calculatePayment
 }

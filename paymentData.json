@@ -1,0 +1,12 @@
+{
+    "discounts": {
+        "card": 0.5,
+        "net-banking": 1,
+        "upi/wallet": 1.5
+    },
+    "additional-fees": {
+        "tax": 2.5,
+        "service-charge": 1.5
+    },
+    "ticket": 500
+}

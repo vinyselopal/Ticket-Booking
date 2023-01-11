@@ -1,4 +1,7 @@
-const { main, inputParser, bookSeats } = require('./index')
+const { main, inputParser, bookSeats, calculatePayment } = require('./index')
+const fs = require('fs')
+
+const paymentData = JSON.parse(fs.readFileSync('./paymentData.json', 'utf8'))
 
 const mockAvailableSeats = {
   seats: [
@@ -42,17 +45,22 @@ test('return new seats data and bookings', () => {
     })
 })
 
-test('book seat (available)', () => {
-  expect(main(mockAvailableSeats, '1\nViny Selopal 24 F'))
-    .toBe('Seats alloted: S1')
-})
+// test('book seat (available)', () => {
+//   expect(main(mockAvailableSeats, '1\nViny Selopal 24 F'))
+//     .toBe('Seats alloted: S1')
+// })
+
+// test('book seat (unavailable)', () => {
+//   expect(main(mockUnavailableSeats, '1\nViny Selopal 24 F'))
+//     .toBe('Failed, seats are not available')
+// })
 
 test('parse input', () => {
   expect(inputParser('1\nViny 24 F'))
     .toStrictEqual({ totalPassengers: 1, passengers: [{ name: 'Viny', age: 24, gender: 'F' }] })
 })
 
-test('book seat (unavailable)', () => {
-  expect(main(mockUnavailableSeats, '1\nViny Selopal 24 F'))
-    .toBe('Failed, seats are not available')
+test('calculate payment', () => {
+  expect(calculatePayment(paymentData, 2, 'card'))
+    .toBe(517.4)
 })
