@@ -12,7 +12,7 @@ const getAvailableSeats = (bus) => {
   return bus.filter(seat => !seat.bookedBy).map(seat => seat.seatNumber)
 }
 
-const main = (input) => {
+const main = async (input) => {
   const { totalPassengers, paymentMethod, passengers } = input
   const availableSeats = getAvailableSeats(bus, totalPassengers)
 
@@ -21,7 +21,10 @@ const main = (input) => {
     return 'Sorry, seats not available'
   }
 
-  const allocatedSeats = allocateSeats(availableSeats, totalPassengers)
+  const allocatedSeats = allocateSeats(availableSeats, totalPassengers, bus, passengers)
+  if (!allocatedSeats.length) {
+    return console.log('seats not allocated')
+  }
   const paymentAmount = calculatePayment(totalPassengers, paymentMethod)
 
   bookSeats(bus, allocatedSeats, passengers)
