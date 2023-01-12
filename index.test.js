@@ -1,4 +1,4 @@
-const { main, getUserInput, bookSeats, calculatePayment, passengerParser, resetSeatsData } = require('./index')
+const { main, getUserInput, selectSeats, bookSeats, calculatePayment, passengerParser, resetSeatsData } = require('./index')
 const fs = require('fs')
 const moment = require('moment')
 
@@ -34,4 +34,9 @@ test('parses passenger details string', () => {
       age: 20,
       gender: 'F'
     })
+})
+
+test('selects consecutive seats', () => {
+  expect(selectSeats(['S1', 'S3', 'S4', 'S5', 'S7', 'S8', 'S9', 'S10'], 4))
+    .toStrictEqual(['S7', 'S8', 'S9', 'S10'])
 })

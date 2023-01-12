@@ -36,6 +36,30 @@ const mutateSeatsData = (seats, key, data) => {
   fs.writeFileSync('./seats.json', JSON.stringify(seatsData))
 }
 
+const selectSeats = (unbookedSeats, totalPassengers) => {
+  const unbookedSeatNumbers = unbookedSeats.map(seat => parseInt(seat.slice(1), 10))
+
+  const consecutiveSegments = []
+  let segment = [unbookedSeatNumbers[0]]
+
+  for (let i = 1; i < unbookedSeatNumbers.length; i++) {
+    if (unbookedSeatNumbers[i] === unbookedSeatNumbers[i - 1] + 1) {
+      segment.push(unbookedSeatNumbers[i])
+      continue
+    }
+    consecutiveSegments.push(segment)
+    segment = [unbookedSeatNumbers[i]]
+  }
+  consecutiveSegments.push(segment)
+
+  const bookings = consecutiveSegments
+    .sort((a, b) => b.length - a.length)
+    .flat()
+    .slice(0, totalPassengers).map(seat => 'S' + seat)
+
+  return bookings
+}
+
 const bookSeats = (input) => {
   const seats = JSON.parse(fs.readFileSync('./seats.json', 'utf8'))
   const unbookedSeats = seats.filter(seat => !seat.bookedBy).map(seat => 'S' + seat.seatNumber)
@@ -46,7 +70,8 @@ const bookSeats = (input) => {
     throw Error('Seats not available')
   }
 
-  const bookings = unbookedSeats.slice(0, totalPassengers)
+  const bookings = selectSeats(unbookedSeats, totalPassengers)
+
   const bookedAtArr = []
   const paymentDataArr = []
   const timeStamp = moment().format('MMMM Do YYYY, h:mm:ss a')
@@ -128,5 +153,6 @@ module.exports = {
   bookSeats,
   calculatePayment,
   passengerParser,
-  resetSeatsData
+  resetSeatsData,
+  selectSeats
 }
