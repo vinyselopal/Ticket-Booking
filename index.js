@@ -22,57 +22,68 @@ const calculatePayment = (paymentData, input) => {
   return paymentAmount
 }
 
-const bookSeats = (seats, input) => {
-  const newSeats = seats
-  const bookedSeats = seats.bookedSeats
-
-  const { totalPassengers, passengers } = input
-
-  if (totalPassengers > bookedSeats) {
-    return {
-      bookings: [],
-      newSeats
-    }
-  }
-
-  const bookings = []
+const mutateSeatsData = (seats, key, data) => {
+  const seatsData = JSON.parse(fs.readFileSync('./seats.json', 'utf8'))
   let counter = 0
 
-  const bookedAt = moment().format('MMMM Do YYYY, h:mm:ss a')
-
-  newSeats.forEach((seat) => {
-    if (!seat.bookedBy && counter < passengers.length) {
-      bookings.push('S' + seat.seatNumber)
-      seat.bookedBy = passengers[counter]
-      seat.bookedAt = bookedAt
+  seatsData.forEach(seat => {
+    if (counter < data.length && ('S' + seat.seatNumber) === seats[counter]) {
+      seat[key] = data[counter]
       counter++
     }
   })
 
-  return {
-    bookings,
-    newSeats
-  }
+  fs.writeFileSync('./seats.json', JSON.stringify(seatsData))
 }
 
-const main = (input) => {
+const bookSeats = (input) => {
   const seats = JSON.parse(fs.readFileSync('./seats.json', 'utf8'))
+  const unbookedSeats = seats.filter(seat => !seat.bookedBy).map(seat => 'S' + seat.seatNumber)
 
-  const { bookings, newSeats } = bookSeats(seats, input)
+  const { totalPassengers, passengers } = input
 
-  if (!bookings.length) {
-    return console.log('Failed, seats are not available')
+  if (totalPassengers > unbookedSeats.length) {
+    throw Error('Seats not available')
   }
+
+  const bookings = unbookedSeats.slice(0, totalPassengers)
+  const bookedAtArr = []
+  const paymentDataArr = []
+  const timeStamp = moment().format('MMMM Do YYYY, h:mm:ss a')
 
   const paymentData = JSON.parse(fs.readFileSync('./paymentData.json', 'utf8'))
 
   const paymentAmount = calculatePayment(paymentData, input)
 
-  fs.writeFileSync('./seats.json', JSON.stringify(newSeats))
+  for (let i = 0; i < bookings.length; i++) {
+    bookedAtArr.push(timeStamp)
+  }
+
+  for (let i = 0; i < bookings.length; i++) {
+    paymentDataArr.push({
+      paymentAmount,
+      paymentMethod: input.paymentMethod
+    })
+  }
+
+  mutateSeatsData(bookings, 'bookedBy', passengers)
+  mutateSeatsData(bookings, 'bookedAt', bookedAtArr)
+  mutateSeatsData(bookings, 'paymentDetails', paymentDataArr)
+
   const output = 'Total Amount: ' + paymentAmount + '\n' + 'Seats alloted: ' + bookings.join(' ')
 
-  console.log(output)
   return output
+}
+
+const main = (input) => {
+  try {
+    const output = bookSeats(input)
+    console.log(output)
+    return output
+  } catch (err) {
+    console.log(err)
+    return err
+  }
 }
 
 const passengerParser = (input) => {

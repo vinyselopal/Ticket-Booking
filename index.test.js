@@ -12,28 +12,9 @@ const mockInput = {
 }
 
 test('return new seats data and bookings', () => {
-  expect(bookSeats(
-    [
-      {
-        seatNumber: 1,
-        bookedBy: null,
-        bookedAt: null
-      }
-    ],
-    mockInput)
+  expect(bookSeats(mockInput)
   )
-    .toStrictEqual({
-      bookings: ['S1'],
-      newSeats:
-        [
-          {
-            seatNumber: 1,
-            bookedBy: { name: 'Viny', age: 24, gender: 'F' },
-            bookedAt: moment().format('MMMM Do YYYY, h:mm:ss a')
-          }
-        ]
-
-    })
+    .toStrictEqual('Total Amount: 517.4\nSeats alloted: S1')
 })
 
 test('calculate payment', () => {
@@ -42,17 +23,7 @@ test('calculate payment', () => {
 })
 
 test('return output string for user', () => {
-  expect(main({
-    totalPassengers: 1,
-    passengers: [
-      {
-        name: 'A',
-        age: 20,
-        gender: 'F'
-      }
-    ],
-    paymentMethod: 'card'
-  }))
+  expect(main(mockInput))
     .toBe('Total Amount: 517.4\nSeats alloted: S1')
 })
 
