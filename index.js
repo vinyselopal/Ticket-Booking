@@ -44,19 +44,23 @@ const getUserInput = () => {
   let lineNumber = -1
 
   const readInputs = (line) => {
-    console.log('ln', lineNumber)
     lineNumber++
 
     if (lineNumber === 0) {
-      const totalPassengers = parseInt(line.trim())
-      console.log(totalPassengers)
-      if (isNaN(totalPassengers)) {
-        console.log('not a valid input for number of passengers')
+      const totalPassengers = parseInt(line.trim(), 10)
+      if (isNaN(line)) {
+        console.log('not a valid input for number of passengers\n')
         lineNumber = -1
       }
       input.totalPassengers = totalPassengers
     } else if (lineNumber <= input.totalPassengers) {
-      input.passengers.push(passengerParser(line))
+      const passenger = passengerParser(line)
+      if (!passenger) {
+        console.log('not valid passenger details')
+        lineNumber = -1
+        return
+      }
+      input.passengers.push(passenger)
     }
     if (lineNumber > input.totalPassengers) {
       if (!validatePaymentMethod(line)) {

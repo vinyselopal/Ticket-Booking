@@ -1,6 +1,10 @@
 const passengerParser = (input) => {
   const [name, ageString, gender] = input.split(' ')
-  return { name, age: parseInt(ageString, 10), gender }
+  const age = parseInt(ageString, 10)
+  if (isNaN(age) || !['M', 'F', 'NBQ'].includes(gender)) {
+    return null
+  }
+  return { name, age, gender }
 }
 
 module.exports = { passengerParser }
