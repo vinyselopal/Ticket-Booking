@@ -6,6 +6,7 @@ const readline = require('readline').createInterface(process.stdin)
 const main = (input) => {
   const busTemplate = JSON.parse(fs.readFileSync('./data/bus.json'))
   const seatsBookedData = bookSeats(input, busTemplate)
+
   if (!seatsBookedData) {
     console.log('Sorry,  seats not available')
     return 'Sorry, seats not available'
