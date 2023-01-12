@@ -3,37 +3,45 @@ const moment = require('moment')
 const readline = require('readline').createInterface(process.stdin)
 
 const resetSeatsData = () => {
-  const seats = JSON.parse(fs.readFileSync('./seats.json', 'utf8'))
+  const bus = JSON.parse(fs.readFileSync('./data/bus.json', 'utf8'))
+  const seats = bus.seats
 
   const newSeatsData = seats.map(seat => {
-    return { ...seat, bookedBy: null }
+    return { ...seat, bookedBy: null, bookedAt: null }
   })
 
-  fs.writeFileSync('./seats.json', JSON.stringify(newSeatsData))
+  fs.writeFileSync('./data/bus.json', JSON.stringify({ ...bus, seats: newSeatsData }))
 }
 
 const calculatePayment = (paymentData, input) => {
   const { totalPassengers, paymentMethod } = input
   const discount = paymentData.discounts[paymentMethod]
-  const additionalFees = Object.values(paymentData['additional-fees']).reduce((prev, curr) => prev + curr, 0)
+  const additionalFees = Object.values(paymentData['additional-fees'])
+    .reduce((prev, curr) => prev + curr, 0)
   const ticket = paymentData.ticket
 
-  const paymentAmount = ticket * (1 - (discount / 100)) * (1 + (additionalFees / 100)) * totalPassengers
+  const paymentAmount = ticket *
+  (1 - (discount / 100)) *
+  (1 + (additionalFees / 100)) *
+  totalPassengers
+
   return paymentAmount
 }
 
 const mutateSeatsData = (seats, key, data) => {
-  const seatsData = JSON.parse(fs.readFileSync('./seats.json', 'utf8'))
+  const bus = JSON.parse(fs.readFileSync('./data/bus.json', 'utf8'))
+  const seatsData = bus.seats
   let counter = 0
 
   seatsData.forEach(seat => {
-    if (counter < data.length && ('S' + seat.seatNumber) === seats[counter]) {
+    if (counter < data.length &&
+      ('S' + seat.seatNumber) === seats[counter]) {
       seat[key] = data[counter]
       counter++
     }
   })
 
-  fs.writeFileSync('./seats.json', JSON.stringify(seatsData))
+  fs.writeFileSync('./data/bus.json', JSON.stringify({ ...bus, seats: seatsData }))
 }
 
 const selectSeats = (unbookedSeats, totalPassengers) => {
@@ -55,14 +63,18 @@ const selectSeats = (unbookedSeats, totalPassengers) => {
   const bookings = consecutiveSegments
     .sort((a, b) => b.length - a.length)
     .flat()
-    .slice(0, totalPassengers).map(seat => 'S' + seat)
+    .slice(0, totalPassengers)
+    .map(seat => 'S' + seat)
 
   return bookings
 }
 
 const bookSeats = (input) => {
-  const seats = JSON.parse(fs.readFileSync('./seats.json', 'utf8'))
-  const unbookedSeats = seats.filter(seat => !seat.bookedBy).map(seat => 'S' + seat.seatNumber)
+  const bus = JSON.parse(fs.readFileSync('./data/bus.json', 'utf8'))
+  const seats = bus.seats
+
+  const unbookedSeats = seats.filter(seat => !seat.bookedBy)
+    .map(seat => 'S' + seat.seatNumber)
 
   const { totalPassengers, passengers } = input
 
@@ -76,7 +88,7 @@ const bookSeats = (input) => {
   const paymentDataArr = []
   const timeStamp = moment().format('MMMM Do YYYY, h:mm:ss a')
 
-  const paymentData = JSON.parse(fs.readFileSync('./paymentData.json', 'utf8'))
+  const paymentData = JSON.parse(fs.readFileSync('./data/paymentData.json', 'utf8'))
 
   const paymentAmount = calculatePayment(paymentData, input)
 
@@ -93,7 +105,6 @@ const bookSeats = (input) => {
 
   mutateSeatsData(bookings, 'bookedBy', passengers)
   mutateSeatsData(bookings, 'bookedAt', bookedAtArr)
-  mutateSeatsData(bookings, 'paymentDetails', paymentDataArr)
 
   const output = 'Total Amount: ' + paymentAmount + '\n' + 'Seats alloted: ' + bookings.join(' ')
 

@@ -1,9 +1,17 @@
-const { main, getUserInput, selectSeats, bookSeats, calculatePayment, passengerParser, resetSeatsData } = require('./index')
-const fs = require('fs')
-const moment = require('moment')
+const {
+  main,
+  getUserInput,
+  selectSeats,
+  bookSeats,
+  calculatePayment,
+  passengerParser,
+  resetSeatsData
+} = require('./index')
 
-const paymentData = JSON.parse(fs.readFileSync('./paymentData.json', 'utf8'))
-const seatsString = fs.readFileSync('./seats.json', 'utf8')
+const fs = require('fs')
+
+const paymentData = JSON.parse(fs.readFileSync('./data/paymentData.json', 'utf8'))
+const seatsString = fs.readFileSync('./data/bus.json', 'utf8')
 
 const mockInput = {
   totalPassengers: 1,
