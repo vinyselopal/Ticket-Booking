@@ -11,7 +11,6 @@ const {
 const fs = require('fs')
 
 const paymentData = JSON.parse(fs.readFileSync('./data/paymentData.json', 'utf8'))
-const seatsString = fs.readFileSync('./data/bus.json', 'utf8')
 
 const mockInput = {
   totalPassengers: 1,
@@ -19,10 +18,13 @@ const mockInput = {
   paymentMethod: 'card'
 }
 
-test('return new seats data and bookings', () => {
+test('return paymentAmount and bookings', () => {
   expect(bookSeats(mockInput)
   )
-    .toStrictEqual('Total Amount: 517.4\nSeats alloted: S1')
+    .toStrictEqual({
+      paymentAmount: 517.4,
+      bookings: ['S1']
+    })
 })
 
 test('calculate payment', () => {

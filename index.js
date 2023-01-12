@@ -79,7 +79,7 @@ const bookSeats = (input) => {
   const { totalPassengers, passengers } = input
 
   if (totalPassengers > unbookedSeats.length) {
-    throw Error('Seats not available')
+    return null
   }
 
   const bookings = selectSeats(unbookedSeats, totalPassengers)
@@ -106,20 +106,25 @@ const bookSeats = (input) => {
   mutateSeatsData(bookings, 'bookedBy', passengers)
   mutateSeatsData(bookings, 'bookedAt', bookedAtArr)
 
-  const output = 'Total Amount: ' + paymentAmount + '\n' + 'Seats alloted: ' + bookings.join(' ')
-
-  return output
+  return {
+    paymentAmount,
+    bookings
+  }
 }
 
 const main = (input) => {
-  try {
-    const output = bookSeats(input)
+    const seatsBookedData = bookSeats(input)
+    if (!seatsBookedData) {
+      console.log('Sorry,  seats not available')
+      return 'Sorry, seats not available'
+    }
+    
+    const {paymentAmount, bookings} = seatsBookedData
+    const output = 'Total Amount: ' + paymentAmount + '\n' + 'Seats alloted: ' + bookings.join(' ')
+
     console.log(output)
     return output
-  } catch (err) {
-    console.log(err)
-    return err
-  }
+    
 }
 
 const passengerParser = (input) => {
