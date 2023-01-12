@@ -118,7 +118,7 @@ const main = (input) => {
       console.log('Sorry,  seats not available')
       return 'Sorry, seats not available'
     }
-    
+
     const {paymentAmount, bookings} = seatsBookedData
     const output = 'Total Amount: ' + paymentAmount + '\n' + 'Seats alloted: ' + bookings.join(' ')
 
@@ -133,7 +133,7 @@ const passengerParser = (input) => {
 }
 
 const getUserInput = () => {
-  const input = {
+  let input = {
     totalPassengers: 0,
     passengers: [],
     paymentMethod: null
@@ -152,12 +152,17 @@ const getUserInput = () => {
     }
     if (lineNumber > input.totalPassengers) {
       input.paymentMethod = line
-      readline.close()
+      main(input)
+      lineNumber = -1
+      input = {
+        totalPassengers: 0,
+        passengers: [],
+        paymentMethod: null
+      }
     }
   }
 
   readline.on('line', readInputs)
-  readline.on('close', () => main(input))
 }
 
 getUserInput()
