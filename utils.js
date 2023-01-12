@@ -1,3 +1,6 @@
-const createCopy = (input) => JSON.parse(JSON.stringify(input))
+const fs = require('fs')
+const paymentMethods = JSON.parse(fs.readFileSync('./data/paymentData.json', 'utf8')).paymentMethods
 
-module.exports = { createCopy }
+const validateNumberOfPassengers = (input) => !isNaN(input)
+const validatePaymentMethod = (input) => paymentMethods.find(obj => obj.method === input && obj.enabled)
+module.exports = { validateNumberOfPassengers, validatePaymentMethod }

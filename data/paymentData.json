@@ -1,8 +1,27 @@
 {
+    "paymentMethods": [
+        {
+            "method": "card",
+            "enabled": true
+        },
+        {
+            "method": "net-banking",
+            "enabled": true
+        },
+        {
+            "method": "upi",
+            "enabled": false
+        },
+        {
+            "method": "wallet",
+            "enabled": false
+        }
+    ],
     "discounts": {
         "card": 0.5,
         "net-banking": 1,
-        "upi/wallet": 1.5
+        "upi": 1.5,
+        "wallet": 1.5
     },
     "additional-fees": {
         "tax": 2.5,
