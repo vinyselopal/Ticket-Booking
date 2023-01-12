@@ -155,7 +155,6 @@ const getUserInput = () => {
   readline.on('close', () => main(input))
 }
 
-resetSeatsData()
 getUserInput()
 
 module.exports = {
