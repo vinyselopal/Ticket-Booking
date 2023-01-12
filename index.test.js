@@ -1,16 +1,16 @@
 const {
-  main,
-  getUserInput,
-  selectSeats,
-  bookSeats,
-  calculatePayment,
-  passengerParser,
-  resetSeatsData
+  main
 } = require('./index')
+
+const { bookSeats } = require('./services/bookSeats')
+const { selectSeats } = require('./services/selectSeats')
+const { calculatePayment } = require('./services/calculatePayment')
+const { passengerParser } = require('./services/passengerParser')
 
 const fs = require('fs')
 
 const paymentData = JSON.parse(fs.readFileSync('./data/paymentData.json', 'utf8'))
+const busTemplate = JSON.parse(fs.readFileSync('./data/bus.json', 'utf8'))
 
 const mockInput = {
   totalPassengers: 1,
@@ -19,11 +19,11 @@ const mockInput = {
 }
 
 test('return paymentAmount and bookings', () => {
-  expect(bookSeats(mockInput)
+  expect(bookSeats(mockInput, busTemplate)
   )
     .toStrictEqual({
       paymentAmount: 517.4,
-      bookings: ['S1']
+      bookings: [1]
     })
 })
 
@@ -47,6 +47,6 @@ test('parses passenger details string', () => {
 })
 
 test('selects consecutive seats', () => {
-  expect(selectSeats(['S1', 'S3', 'S4', 'S5', 'S7', 'S8', 'S9', 'S10'], 4))
-    .toStrictEqual(['S7', 'S8', 'S9', 'S10'])
+  expect(selectSeats([1, 3, 4, 5, 7, 8, 9, 10], 4))
+    .toStrictEqual([7, 8, 9, 10])
 })

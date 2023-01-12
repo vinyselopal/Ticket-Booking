@@ -4,12 +4,11 @@ const { selectSeats } = require('./selectSeats')
 const { mutateSeatsData } = require('./mutateSeatsData')
 const fs = require('fs')
 
-const bookSeats = (input) => {
-  const bus = JSON.parse(fs.readFileSync('./data/bus.json', 'utf8'))
+const bookSeats = (input, bus) => {
   const seats = bus.seats
 
   const unbookedSeats = seats.filter(seat => !seat.bookedBy)
-    .map(seat => 'S' + seat.seatNumber)
+    .map(seat => seat.seatNumber)
 
   const { totalPassengers, passengers } = input
 
@@ -38,8 +37,7 @@ const bookSeats = (input) => {
     })
   }
 
-  mutateSeatsData(bookings, 'bookedBy', passengers)
-  mutateSeatsData(bookings, 'bookedAt', bookedAtArr)
+  mutateSeatsData(bookings, 'bookedBy', passengers, bus)
 
   return {
     paymentAmount,

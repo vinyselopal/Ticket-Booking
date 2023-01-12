@@ -1,29 +1,21 @@
-const fs = require('fs')
 const { bookSeats } = require('./services/bookSeats')
 const { passengerParser } = require('./services/passengerParser')
-
+const fs = require('fs')
 const readline = require('readline').createInterface(process.stdin)
 
-const resetSeatsData = () => {
-  const bus = JSON.parse(fs.readFileSync('./data/bus.json', 'utf8'))
-  const seats = bus.seats
-
-  const newSeatsData = seats.map(seat => {
-    return { ...seat, bookedBy: null, bookedAt: null }
-  })
-
-  fs.writeFileSync('./data/bus.json', JSON.stringify({ ...bus, seats: newSeatsData }))
-}
-
 const main = (input) => {
-  const seatsBookedData = bookSeats(input)
+  const busTemplate = JSON.parse(fs.readFileSync('./data/bus.json'))
+  const seatsBookedData = bookSeats(input, busTemplate)
   if (!seatsBookedData) {
     console.log('Sorry,  seats not available')
     return 'Sorry, seats not available'
   }
 
   const { paymentAmount, bookings } = seatsBookedData
-  const output = 'Total Amount: ' + paymentAmount + '\n' + 'Seats alloted: ' + bookings.join(' ')
+  const output = 'Total Amount: ' + paymentAmount +
+  '\n' + 'Seats alloted: ' +
+  bookings.map(seatNumber => 'S' + seatNumber)
+    .join(' ')
 
   console.log(output)
   return output
@@ -66,6 +58,5 @@ getUserInput()
 
 module.exports = {
   main,
-  getUserInput,
-  resetSeatsData
+  getUserInput
 }

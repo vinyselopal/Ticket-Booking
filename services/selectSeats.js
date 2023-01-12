@@ -1,6 +1,4 @@
-const selectSeats = (unbookedSeats, totalPassengers) => {
-  const unbookedSeatNumbers = unbookedSeats.map(seat => parseInt(seat.slice(1), 10))
-
+const selectSeats = (unbookedSeatNumbers, totalPassengers) => {
   const consecutiveSegments = []
   let segment = [unbookedSeatNumbers[0]]
 
@@ -18,7 +16,6 @@ const selectSeats = (unbookedSeats, totalPassengers) => {
     .sort((a, b) => b.length - a.length)
     .flat()
     .slice(0, totalPassengers)
-    .map(seat => 'S' + seat)
 
   return bookings
 }

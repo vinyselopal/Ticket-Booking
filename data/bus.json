@@ -2,113 +2,43 @@
     "seats": [
         {
             "seatNumber": 1,
-            "bookedBy": {
-                "name": "Viny",
-                "age": 24,
-                "gender": "F"
-            },
-            "bookedAt": "January 12th 2023, 2:06:33 pm"
+            "bookedBy": null
         },
         {
             "seatNumber": 2,
-            "bookedBy": {
-                "name": "Viny",
-                "age": 24,
-                "gender": "F"
-            },
-            "bookedAt": "January 12th 2023, 2:06:33 pm"
+            "bookedBy": null
         },
         {
             "seatNumber": 3,
-            "bookedBy": {
-                "name": "Viny",
-                "age": 24,
-                "gender": "F"
-            },
-            "bookedAt": "January 12th 2023, 2:09:22 pm"
+            "bookedBy": null
         },
         {
             "seatNumber": 4,
-            "bookedBy": {
-                "name": "Viny",
-                "age": 24,
-                "gender": "F"
-            },
-            "bookedAt": "January 12th 2023, 2:09:22 pm"
+            "bookedBy": null
         },
         {
             "seatNumber": 5,
-            "bookedBy": {
-                "name": "Viny",
-                "age": 21,
-                "gender": "F"
-            },
-            "bookedAt": "January 12th 2023, 2:12:27 pm"
+            "bookedBy": null
         },
         {
             "seatNumber": 6,
-            "bookedBy": {
-                "name": "Viny",
-                "age": 24,
-                "gender": "F"
-            },
-            "bookedAt": "January 12th 2023, 2:12:33 pm"
+            "bookedBy": null
         },
         {
             "seatNumber": 7,
-            "bookedBy": {
-                "name": "Viny",
-                "age": 24,
-                "gender": "F"
-            },
-            "bookedAt": "January 12th 2023, 2:12:33 pm"
+            "bookedBy": null
         },
         {
             "seatNumber": 8,
-            "bookedBy": {
-                "name": "Viny",
-                "age": 24,
-                "gender": "F"
-            },
-            "bookedAt": "January 12th 2023, 2:14:48 pm"
+            "bookedBy": null
         },
         {
             "seatNumber": 9,
-            "bookedBy": {
-                "name": "Viny",
-                "age": 24,
-                "gender": "F"
-            },
-            "bookedAt": "January 12th 2023, 2:14:48 pm"
+            "bookedBy": null
         },
         {
             "seatNumber": 10,
-            "bookedBy": {
-                "name": "A",
-                "age": 21,
-                "gender": "F"
-            },
-            "bookedAt": "January 12th 2023, 2:57:27 pm"
-        },
-        {
-            "seatNumber": 11,
-            "bookedBy": {
-                "name": "Viny",
-                "age": 24,
-                "gender": "F"
-            },
-            "bookedAt": "January 12th 2023, 2:57:33 pm"
-        },
-        {
-            "seatNumber": 12,
-            "bookedBy": {
-                "name": "Viny",
-                "age": 24,
-                "gender": "F"
-            },
-            "bookedAt": "January 12th 2023, 2:57:34 pm"
+            "bookedBy": null
         }
-    ],
-    "totalSeats": 12,
-    "availableSeats": 9
+    ]
 }

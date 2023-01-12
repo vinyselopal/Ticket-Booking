@@ -1,7 +1,4 @@
-const fs = require('fs')
-
-const mutateSeatsData = (seats, key, data) => {
-  const bus = JSON.parse(fs.readFileSync('./data/bus.json', 'utf8'))
+const mutateSeatsData = (seats, key, data, bus) => {
   const seatsData = bus.seats
   let counter = 0
 
@@ -12,8 +9,6 @@ const mutateSeatsData = (seats, key, data) => {
       counter++
     }
   })
-
-  fs.writeFileSync('./data/bus.json', JSON.stringify({ ...bus, seats: seatsData }))
 }
 
 module.exports = { mutateSeatsData }
