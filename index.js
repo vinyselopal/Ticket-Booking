@@ -1,21 +1,30 @@
-const { bookSeats } = require('./services/bookSeats')
-const { passengerParser } = require('./services/passengerParser')
 const fs = require('fs')
+const { passengerParser } = require('./services/passengerParser')
+const { bookSeats } = require('./services/bookSeats')
+const { allocateSeats } = require('./services/allocateSeats')
 const readline = require('readline').createInterface(process.stdin)
 
-const main = (input) => {
-  const busTemplate = JSON.parse(fs.readFileSync('./data/bus.json'))
-  const seatsBookedData = bookSeats(input, busTemplate)
+const getAvailableSeats = (bus, totalPassengers) => {
+  return bus.filter(seat => seat.bookedBy).map(seat => seat.seatNumber)
+}
 
-  if (!seatsBookedData) {
+const main = (input, bus, bookings) => {
+  const {totalPassengers, paymentMethod, passengers} = input
+  const availableSeats = getAvailableSeats(bus, totalPassengers)
+  
+  if (!availableSeats.length) {
     console.log('Sorry,  seats not available')
     return 'Sorry, seats not available'
   }
 
-  const { paymentAmount, bookings } = seatsBookedData
+  const allocatedSeats = allocateSeats(unbookedSeats, totalPassengers)
+  const paymentAmount = calculatePayment(totalPassengers, paymentMethod)
+
+  bookSeats(bus, allocatedSeats, passengers)
+
   const output = 'Total Amount: ' + paymentAmount +
   '\n' + 'Seats alloted: ' +
-  bookings.map(seatNumber => 'S' + seatNumber)
+  bookedSeats.map(seatNumber => 'S' + seatNumber)
     .join(' ')
 
   console.log(output)
@@ -23,6 +32,9 @@ const main = (input) => {
 }
 
 const getUserInput = () => {
+  let busTemplate = JSON.parse(fs.readFileSync('./data/bus.json'))
+  const bookings = []
+
   let input = {
     totalPassengers: 0,
     passengers: [],
@@ -42,7 +54,7 @@ const getUserInput = () => {
     }
     if (lineNumber > input.totalPassengers) {
       input.paymentMethod = line
-      main(input)
+      { busTemplate, bookings } = main(input, busTemplate, bookings)
       lineNumber = -1
       input = {
         totalPassengers: 0,

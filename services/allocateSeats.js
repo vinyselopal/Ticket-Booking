@@ -1,4 +1,4 @@
-const selectSeats = (unbookedSeatNumbers, totalPassengers) => {
+const allocateSeats = (unbookedSeatNumbers, totalPassengers) => {
   const consecutiveSegments = []
   let segment = [unbookedSeatNumbers[0]]
 
@@ -20,4 +20,4 @@ const selectSeats = (unbookedSeatNumbers, totalPassengers) => {
   return bookings
 }
 
-module.exports = { selectSeats }
+module.exports = { allocateSeats }

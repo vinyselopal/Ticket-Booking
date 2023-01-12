@@ -1,18 +1,31 @@
 const { bookSeats } = require('../services/bookSeats')
-const fs = require('fs')
-const busTemplate = JSON.parse(fs.readFileSync('./data/bus.json', 'utf8'))
+const bus = [
+  {
+    seatNumber: 1,
+    bookedBy: null
+  },
+  {
+    seatNumber: 2,
+    bookedBy: null
+  }]
 
-const mockInput = {
-  totalPassengers: 1,
-  passengers: [{ name: 'Viny', age: 24, gender: 'F' }],
-  paymentMethod: 'card'
-}
+const allocatedSeats = [1, 2]
+const passengers = [{
+  name: 'A',
+  age: 21,
+  gender: 'F'
+}]
 
-test('return paymentAmount and bookings', () => {
-  expect(bookSeats(mockInput, busTemplate)
-  )
-    .toStrictEqual({
-      paymentAmount: 517.4,
-      bookings: [1]
-    })
+test('mutates bus data', () => {
+  expect(bookSeats(bus, allocatedSeats, passengers))
+    .toStrictEqual([
+      {
+        seatNumber: 1,
+        bookedBy: passengers[0]
+      },
+      {
+        seatNumber: 2,
+        bookedBy: null
+      }
+    ])
 })
