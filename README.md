@@ -2,10 +2,7 @@
 ## Everest Engineering coding challenge
 
 ### Input Format:
-`1
-A 21 F
-card`
+`1\nA 21 F\ncard`
 
 ### Output Format:
-`Total Amount: 517.4
-Seats alloted: S10`
+`Total Amount: 517.4\nSeats alloted: S10`
