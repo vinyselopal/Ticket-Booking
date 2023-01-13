@@ -1,8 +1,9 @@
 const {
   main,
-  createOutputString,
-  checkCopassenger
+  createOutputString
+
 } = require('../main')
+const { checkCopassenger } = require('../services/allocateSeats')
 
 test('return output string for user', async () => {
   const input = {

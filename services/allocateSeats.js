@@ -1,12 +1,18 @@
+const checkCopassenger = (bus, allocatedSeat, gender) => {
+  return bus[bus[allocatedSeat - 1].adjacent - 1].bookedBy?.gender === gender ||
+    !bus[bus[allocatedSeat - 1].adjacent - 1].bookedBy
+}
+
 const getAvailableSeats = (bus) => {
   return bus.filter(seat => !seat.bookedBy).map(seat => seat.seatNumber)
 }
+
 const allocateSeats = (totalPassengers, bus, passengers) => {
   const availableSeats = getAvailableSeats(bus, totalPassengers)
 
   if (totalPassengers === 1) return allocateSeat(availableSeats, bus, passengers)
   if (!availableSeats.length || availableSeats.length < totalPassengers) {
-    return []
+    return { shouldConfirmSeat: false, allocatedSeats: [] }
   }
   const consecutiveSegments = []
   let segment = [availableSeats[0]]
@@ -26,12 +32,12 @@ const allocateSeats = (totalPassengers, bus, passengers) => {
     .flat()
     .slice(0, totalPassengers)
 
-  return bookings
+  return { shouldConfirmSeat: false, allocatedSeats: bookings }
 }
 
 const allocateSeat = (availableSeats, bus, passengers) => {
   if (!availableSeats.length) {
-    return []
+    return { shouldConfirmSeat: false, allocatedSeats: [] }
   }
 
   const gender = passengers[0].gender
@@ -40,9 +46,11 @@ const allocateSeat = (availableSeats, bus, passengers) => {
     !bus[bus[seat - 1].adjacent - 1].bookedBy))
 
   if (!seat) {
-    return [availableSeats[0]]
+    return { shouldConfirmSeat: false, allocatedSeats: [availableSeats[0]] }
   }
-  return [seat]
+  const shouldConfirmSeat = !checkCopassenger(bus, seat, passengers[0].gender)
+
+  return { shouldConfirmSeat, allocatedSeats: [seat] }
 }
 
-module.exports = { allocateSeats, allocateSeat, getAvailableSeats }
+module.exports = { allocateSeats, allocateSeat, getAvailableSeats, checkCopassenger }

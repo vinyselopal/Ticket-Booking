@@ -10,11 +10,6 @@ const { bookSeats } = require('./services/bookSeats')
 const { allocateSeats } = require('./services/allocateSeats')
 const { calculatePayment } = require('./services/calculatePayment')
 
-const checkCopassenger = (bus, allocatedSeat, gender) => {
-  return bus[bus[allocatedSeat - 1].adjacent - 1].bookedBy?.gender === gender ||
-    !bus[bus[allocatedSeat - 1].adjacent - 1].bookedBy
-}
-
 const createOutputString = (paymentAmount, allocatedSeats) => {
   const seatsStr = allocatedSeats.map(seatNumber => 'S' + seatNumber)
     .join(' ')
@@ -28,25 +23,20 @@ const confirmBooking = async (rl) => {
 
   return (response === 'y' || response === 'Y')
 }
+
 const main = async (input) => {
   const { totalPassengers, paymentMethod, passengers } = input
 
-  const allocatedSeats = allocateSeats(totalPassengers, bus, passengers)
+  const { allocatedSeats, shouldConfirmSeat } = allocateSeats(totalPassengers, bus, passengers)
 
   if (!allocatedSeats.length) {
     console.log('sorry no seats available')
     return 'sorry no seats available'
   }
 
-  if (allocatedSeats.length === 1) {
-    if (!checkCopassenger(bus, allocatedSeats[0], passengers[0].gender)) {
-      const bookingConfirmed = await confirmBooking(readline)
-
-      if (!bookingConfirmed) {
-        console.log('Sorry, no seats opposite to same gender')
-        return 'Sorry, no seats opposite to same gender'
-      }
-    }
+  if (shouldConfirmSeat && !(await confirmBooking(readline))) {
+    console.log('Sorry, no seats opposite to same gender')
+    return 'Sorry, no seats opposite to same gender'
   }
 
   const { paymentPerUser, totalPayment } = calculatePayment(totalPassengers, paymentMethod)
@@ -60,8 +50,6 @@ const main = async (input) => {
 
 module.exports = {
   main,
-  checkCopassenger,
   createOutputString,
-  confirmBooking,
-  getAvailableSeats
+  confirmBooking
 }

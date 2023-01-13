@@ -131,7 +131,7 @@ test('selects consecutive seats (largest segment greater than passengers)', () =
     }
   ]
   expect(allocateSeats(4, bus))
-    .toStrictEqual([11, 12, 2, 6])
+    .toStrictEqual({ shouldConfirmSeat: false, allocatedSeats: [11, 12, 2, 6] })
 })
 
 test('selects consecutive seats (largest segment smaller than passengers)', () => {
@@ -226,7 +226,7 @@ test('selects consecutive seats (largest segment smaller than passengers)', () =
     }
   ]
   expect(allocateSeats(3, bus))
-    .toStrictEqual([7, 8, 1])
+    .toStrictEqual({ shouldConfirmSeat: false, allocatedSeats: [7, 8, 1] })
 })
 
 test('selects seat (first available)', () => {
@@ -251,7 +251,7 @@ test('selects seat (first available)', () => {
     }
   ]
   expect(allocateSeat([1, 2, 3, 5, 6, 10], bus, passengers))
-    .toStrictEqual([1])
+    .toStrictEqual({ shouldConfirmSeat: false, allocatedSeats: [1] })
 })
 
 test('selects seat (first available seat which is not besides opposite gender)', () => {
@@ -290,7 +290,7 @@ test('selects seat (first available seat which is not besides opposite gender)',
     }
   ]
   expect(allocateSeat([2, 3], bus, passengers))
-    .toStrictEqual([3])
+    .toStrictEqual({ shouldConfirmSeat: false, allocatedSeats: [3] })
 })
 
 test('selects seat (first available seat besides same gender)', () => {
@@ -333,7 +333,7 @@ test('selects seat (first available seat besides same gender)', () => {
     }
   ]
   expect(allocateSeat([2, 3], bus, passengers))
-    .toStrictEqual([3])
+    .toStrictEqual({ shouldConfirmSeat: false, allocatedSeats: [3] })
 })
 
 test('selects seat (unavailable opp. same gender)', () => {
@@ -362,7 +362,7 @@ test('selects seat (unavailable opp. same gender)', () => {
     }
   ]
   expect(allocateSeat([2], bus, passengers))
-    .toStrictEqual([2])
+    .toStrictEqual({ shouldConfirmSeat: false, allocatedSeats: [2] })
 })
 
 test('no available seats', () => {
@@ -453,10 +453,10 @@ test('no available seats', () => {
     }
   ]
   expect(allocateSeats(8, bus))
-    .toStrictEqual([])
+    .toStrictEqual({ shouldConfirmSeat: false, allocatedSeats: [] })
 })
 
 test('no available seat', () => {
   expect(allocateSeat([], 1))
-    .toStrictEqual([])
+    .toStrictEqual({ shouldConfirmSeat: false, allocatedSeats: [] })
 })
