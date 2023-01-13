@@ -11,10 +11,14 @@ const getSeats = (bus, passengers) => {
   const totalPassengers = passengers.length
   const availableSeats = getAvailableSeats(bus, totalPassengers)
 
-  if (totalPassengers === 1) return getOneSeat(availableSeats, bus, passengers)
   if (!availableSeats.length || availableSeats.length < totalPassengers) {
     return { shouldConfirmSeat: false, allocatedSeats: [] }
   }
+
+  if (totalPassengers === 1) {
+    return getOneSeat(availableSeats, bus, passengers)
+  }
+
   const consecutiveSegments = []
   let segment = [availableSeats[0]]
 
@@ -37,10 +41,6 @@ const getSeats = (bus, passengers) => {
 }
 
 const getOneSeat = (availableSeats, bus, passengers) => {
-  if (!availableSeats.length) {
-    return { shouldConfirmSeat: false, allocatedSeats: [] }
-  }
-
   const gender = passengers[0].gender
   const seat = availableSeats.find((seat) => (bus[bus[seat - 1].adjacent - 1]
     .bookedBy?.gender === gender ||

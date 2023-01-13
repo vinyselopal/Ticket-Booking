@@ -537,6 +537,6 @@ test('no available seats', () => {
 })
 
 test('no available seat', () => {
-  expect(getOneSeat([], 1))
+  expect(getSeats([], 1))
     .toStrictEqual({ shouldConfirmSeat: false, allocatedSeats: [] })
 })
