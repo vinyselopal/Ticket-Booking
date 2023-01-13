@@ -27,7 +27,7 @@ const confirmBooking = async (rl) => {
 const main = async (input) => {
   const { totalPassengers, paymentMethod, passengers } = input
 
-  const { allocatedSeats, shouldConfirmSeat } = allocateSeats(totalPassengers, bus, passengers)
+  const { allocatedSeats, shouldConfirmSeat } = allocateSeats(bus, passengers)
 
   if (!allocatedSeats.length) {
     console.log('sorry no seats available')

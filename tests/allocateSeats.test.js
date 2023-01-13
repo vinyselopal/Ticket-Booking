@@ -130,7 +130,29 @@ test('selects consecutive seats (largest segment greater than passengers)', () =
       adjacent: 11
     }
   ]
-  expect(allocateSeats(4, bus))
+  const passangers = [
+    {
+      name: 'E',
+      age: 40,
+      gender: 'M'
+    },
+    {
+      name: 'F',
+      age: 40,
+      gender: 'F'
+    },
+    {
+      name: 'G',
+      age: 40,
+      gender: 'M'
+    },
+    {
+      name: 'H',
+      age: 40,
+      gender: 'M'
+    }
+  ]
+  expect(allocateSeats(bus, passangers))
     .toStrictEqual({ shouldConfirmSeat: false, allocatedSeats: [11, 12, 2, 6] })
 })
 
@@ -225,7 +247,24 @@ test('selects consecutive seats (largest segment smaller than passengers)', () =
       adjacent: 11
     }
   ]
-  expect(allocateSeats(3, bus))
+  const passangers = [
+    {
+      name: 'E',
+      age: 40,
+      gender: 'M'
+    },
+    {
+      name: 'F',
+      age: 40,
+      gender: 'F'
+    },
+    {
+      name: 'G',
+      age: 40,
+      gender: 'M'
+    }
+  ]
+  expect(allocateSeats(bus, passangers))
     .toStrictEqual({ shouldConfirmSeat: false, allocatedSeats: [7, 8, 1] })
 })
 
@@ -452,7 +491,48 @@ test('no available seats', () => {
       adjacent: 11
     }
   ]
-  expect(allocateSeats(8, bus))
+  const passangers = [
+    {
+      name: 'E',
+      age: 40,
+      gender: 'M'
+    },
+    {
+      name: 'F',
+      age: 40,
+      gender: 'F'
+    },
+    {
+      name: 'G',
+      age: 40,
+      gender: 'M'
+    },
+    {
+      name: 'H',
+      age: 40,
+      gender: 'M'
+    }, {
+      name: 'E',
+      age: 40,
+      gender: 'M'
+    },
+    {
+      name: 'F',
+      age: 40,
+      gender: 'F'
+    },
+    {
+      name: 'G',
+      age: 40,
+      gender: 'M'
+    },
+    {
+      name: 'H',
+      age: 40,
+      gender: 'M'
+    }
+  ]
+  expect(allocateSeats(bus, passangers))
     .toStrictEqual({ shouldConfirmSeat: false, allocatedSeats: [] })
 })
 

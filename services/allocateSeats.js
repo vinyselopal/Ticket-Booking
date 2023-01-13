@@ -7,7 +7,8 @@ const getAvailableSeats = (bus) => {
   return bus.filter(seat => !seat.bookedBy).map(seat => seat.seatNumber)
 }
 
-const allocateSeats = (totalPassengers, bus, passengers) => {
+const allocateSeats = (bus, passengers) => {
+  const totalPassengers = passengers.length
   const availableSeats = getAvailableSeats(bus, totalPassengers)
 
   if (totalPassengers === 1) return allocateSeat(availableSeats, bus, passengers)
