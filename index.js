@@ -4,7 +4,7 @@ const { bookSeats } = require('./services/bookSeats')
 const { allocateSeats } = require('./services/allocateSeats')
 const { calculatePayment } = require('./services/calculatePayment')
 const { validatePaymentMethod } = require('./utils')
-const readline = require('readline').createInterface(process.stdin)
+const readline = require('readline').createInterface(process.stdin, process.stdout)
 
 const bus = JSON.parse(fs.readFileSync('./data/bus.json'))
 
@@ -21,9 +21,9 @@ const main = async (input) => {
     return 'Sorry, seats not available'
   }
 
-  const allocatedSeats = allocateSeats(availableSeats, totalPassengers, bus, passengers)
+  const allocatedSeats = await allocateSeats(availableSeats, totalPassengers, bus, passengers, readline)
   if (!allocatedSeats.length) {
-    return console.log('seats not allocated')
+    return console.log('seats not allocated\n')
   }
   const paymentAmount = calculatePayment(totalPassengers, paymentMethod)
 
@@ -38,6 +38,7 @@ const main = async (input) => {
 }
 
 const getUserInput = () => {
+  console.log('Please enter the input:')
   let input = {
     totalPassengers: 0,
     passengers: [],
@@ -46,7 +47,7 @@ const getUserInput = () => {
 
   let lineNumber = -1
 
-  const readInputs = (line) => {
+  const readInputs = async (line) => {
     lineNumber++
 
     if (lineNumber === 0) {
@@ -72,7 +73,7 @@ const getUserInput = () => {
         return
       }
       input.paymentMethod = line
-      main(input)
+      await main(input)
 
       lineNumber = -1
       input = {
