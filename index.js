@@ -28,6 +28,8 @@ const main = async (input) => {
     console.log('seats not allocated')
     return 'seats not allocated'
   }
+  console.log(allocatedSeats, 'allocatedSeats')
+
   const paymentAmount = calculatePayment(totalPassengers, paymentMethod)
 
   bookSeats(bus, allocatedSeats, passengers)
@@ -36,7 +38,7 @@ const main = async (input) => {
   allocatedSeats.map(seatNumber => 'S' + seatNumber)
     .join(' ')
 
-  console.log('output', output)
+  console.log('output', output, 'bus', bus)
   return output
 }
 

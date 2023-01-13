@@ -22,10 +22,15 @@ const allocateSeats = (availableSeats, totalPassengers) => {
   return bookings
 }
 
+const findSeat = (availableSeats, bus, gender) => {
+  const seatNumber = availableSeats.find((seat) => (bus[bus[seat - 1].adjacent - 1].bookedBy?.gender === gender ||
+  !bus[bus[seat - 1].adjacent - 1].bookedBy))
+  return seatNumber
+}
+
 const allocateSeat = async (availableSeats, bus, passengers, rl) => {
   const gender = passengers[0].gender
-  const seat = bus.find((seat) => (bus[seat.adjacent - 1].bookedBy?.gender === gender ||
-    !bus[seat.adjacent - 1].bookedBy))?.seatNumber
+  const seat = findSeat(availableSeats, bus, gender)
 
   if (!seat) {
     const question = util.promisify(rl.question).bind(rl)
@@ -40,4 +45,4 @@ const allocateSeat = async (availableSeats, bus, passengers, rl) => {
   return [seat]
 }
 
-module.exports = { allocateSeats, allocateSeat }
+module.exports = { allocateSeats, allocateSeat, findSeat }
