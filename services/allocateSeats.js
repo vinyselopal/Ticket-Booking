@@ -1,5 +1,6 @@
 
-const allocateSeats = (availableSeats, totalPassengers) => {
+const allocateSeats = (availableSeats, totalPassengers, bus, passengers) => {
+  if (totalPassengers === 1) return allocateSeat(availableSeats, bus, passengers)
   if (!availableSeats.length || availableSeats.length < totalPassengers) {
     return []
   }
