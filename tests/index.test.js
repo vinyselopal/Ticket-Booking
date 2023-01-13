@@ -1,8 +1,7 @@
 const {
   main,
   createOutputString,
-  checkCopassenger,
-  getAvailableSeats
+  checkCopassenger
 } = require('../main')
 
 test('return output string for user', async () => {
@@ -43,42 +42,6 @@ test('return output string for user', async () => {
 test('create output string', () => {
   expect(createOutputString(1030, [1, 2]))
     .toBe('Total Amount: 1030\nSeats alloted: S1 S2')
-})
-
-test('get available seats', () => {
-  const bus = [
-    {
-      seatNumber: 1,
-      bookedBy: {
-        name: 'A',
-        age: 12,
-        gender: 'M'
-      },
-      adjacent: 2
-    },
-    {
-      seatNumber: 2,
-      bookedBy: null,
-      adjacent: 1
-    },
-    {
-      seatNumber: 3,
-      bookedBy: {
-        name: 'B',
-        age: 40,
-        gender: 'M'
-      },
-      adjacent: 4
-    },
-    {
-      seatNumber: 4,
-      bookedBy: null,
-      adjacent: 3
-
-    }
-  ]
-  expect(getAvailableSeats(bus))
-    .toStrictEqual([2, 4])
 })
 
 test('returns whether copassenger is same gender', () => {

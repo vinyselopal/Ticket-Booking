@@ -1,12 +1,231 @@
-const { allocateSeats, allocateSeat } = require('../services/allocateSeats')
+const { allocateSeats, allocateSeat, getAvailableSeats } = require('../services/allocateSeats')
 
+test('get available seats', () => {
+  const bus = [
+    {
+      seatNumber: 1,
+      bookedBy: {
+        name: 'A',
+        age: 12,
+        gender: 'M'
+      },
+      adjacent: 2
+    },
+    {
+      seatNumber: 2,
+      bookedBy: null,
+      adjacent: 1
+    },
+    {
+      seatNumber: 3,
+      bookedBy: {
+        name: 'B',
+        age: 40,
+        gender: 'M'
+      },
+      adjacent: 4
+    },
+    {
+      seatNumber: 4,
+      bookedBy: null,
+      adjacent: 3
+
+    }
+  ]
+  expect(getAvailableSeats(bus))
+    .toStrictEqual([2, 4])
+})
 test('selects consecutive seats (largest segment greater than passengers)', () => {
-  expect(allocateSeats([1, 3, 4, 5, 7, 8, 9, 10], 4))
-    .toStrictEqual([7, 8, 9, 10])
+  const bus = [
+    {
+      seatNumber: 1,
+      bookedBy: {
+        name: 'B',
+        age: 40,
+        gender: 'M'
+      },
+      adjacent: 2
+    },
+    {
+      seatNumber: 2,
+      bookedBy: null,
+      adjacent: 1
+    },
+    {
+      seatNumber: 3,
+      bookedBy: {
+        name: 'B',
+        age: 40,
+        gender: 'M'
+      },
+      adjacent: 4
+    },
+    {
+      seatNumber: 4,
+      bookedBy: {
+        name: 'B',
+        age: 40,
+        gender: 'M'
+      },
+      adjacent: 3
+    },
+    {
+      seatNumber: 5,
+      bookedBy: {
+        name: 'B',
+        age: 40,
+        gender: 'M'
+      },
+      adjacent: 6
+    },
+    {
+      seatNumber: 6,
+      bookedBy: null,
+      adjacent: 5
+    },
+    {
+      seatNumber: 7,
+      bookedBy: {
+        name: 'B',
+        age: 40,
+        gender: 'M'
+      },
+      adjacent: 8
+    },
+    {
+      seatNumber: 8,
+      bookedBy: {
+        name: 'B',
+        age: 40,
+        gender: 'M'
+      },
+      adjacent: 7
+    },
+    {
+      seatNumber: 9,
+      bookedBy: {
+        name: 'B',
+        age: 40,
+        gender: 'M'
+      },
+      adjacent: 10
+    },
+    {
+      seatNumber: 10,
+      bookedBy: {
+        name: 'B',
+        age: 40,
+        gender: 'M'
+      },
+      adjacent: 9
+    },
+    {
+      seatNumber: 11,
+      bookedBy: null,
+      adjacent: 12
+    },
+    {
+      seatNumber: 12,
+      bookedBy: null,
+      adjacent: 11
+    }
+  ]
+  expect(allocateSeats(4, bus))
+    .toStrictEqual([11, 12, 2, 6])
 })
 
 test('selects consecutive seats (largest segment smaller than passengers)', () => {
-  expect(allocateSeats([1, 3, 5, 7, 8], 3))
+  const bus = [
+    {
+      seatNumber: 1,
+      bookedBy: null,
+      adjacent: 2
+    },
+    {
+      seatNumber: 2,
+      bookedBy: {
+        name: 'B',
+        age: 40,
+        gender: 'M'
+      },
+      adjacent: 1
+    },
+    {
+      seatNumber: 3,
+      bookedBy: null,
+      adjacent: 4
+    },
+    {
+      seatNumber: 4,
+      bookedBy: {
+        name: 'B',
+        age: 40,
+        gender: 'M'
+      },
+      adjacent: 3
+    },
+    {
+      seatNumber: 5,
+      bookedBy: null,
+      adjacent: 6
+    },
+    {
+      seatNumber: 6,
+      bookedBy: {
+        name: 'B',
+        age: 40,
+        gender: 'M'
+      },
+      adjacent: 5
+    },
+    {
+      seatNumber: 7,
+      bookedBy: null,
+      adjacent: 8
+    },
+    {
+      seatNumber: 8,
+      bookedBy: null,
+      adjacent: 7
+    },
+    {
+      seatNumber: 9,
+      bookedBy: {
+        name: 'B',
+        age: 40,
+        gender: 'M'
+      },
+      adjacent: 10
+    },
+    {
+      seatNumber: 10,
+      bookedBy: {
+        name: 'B',
+        age: 40,
+        gender: 'M'
+      },
+      adjacent: 9
+    },
+    {
+      seatNumber: 11,
+      bookedBy: {
+        name: 'B',
+        age: 40,
+        gender: 'M'
+      },
+      adjacent: 12
+    },
+    {
+      seatNumber: 12,
+      bookedBy: {
+        name: 'B',
+        age: 40,
+        gender: 'M'
+      },
+      adjacent: 11
+    }
+  ]
+  expect(allocateSeats(3, bus))
     .toStrictEqual([7, 8, 1])
 })
 
@@ -147,7 +366,93 @@ test('selects seat (unavailable opp. same gender)', () => {
 })
 
 test('no available seats', () => {
-  expect(allocateSeats([1, 2, 3, 5, 6, 10], 8))
+  const bus = [
+    {
+      seatNumber: 1,
+      bookedBy: null,
+      adjacent: 2
+    },
+    {
+      seatNumber: 2,
+      bookedBy: null,
+      adjacent: 1
+    },
+    {
+      seatNumber: 3,
+      bookedBy: null,
+      adjacent: 4
+    },
+    {
+      seatNumber: 4,
+      bookedBy: {
+        name: 'B',
+        age: 40,
+        gender: 'M'
+      },
+      adjacent: 3
+    },
+    {
+      seatNumber: 5,
+      bookedBy: null,
+      adjacent: 6
+    },
+    {
+      seatNumber: 6,
+      bookedBy: null,
+      adjacent: 5
+    },
+    {
+      seatNumber: 7,
+      bookedBy: {
+        name: 'B',
+        age: 40,
+        gender: 'M'
+      },
+      adjacent: 8
+    },
+    {
+      seatNumber: 8,
+      bookedBy: {
+        name: 'B',
+        age: 40,
+        gender: 'M'
+      },
+      adjacent: 7
+    },
+    {
+      seatNumber: 9,
+      bookedBy: {
+        name: 'B',
+        age: 40,
+        gender: 'M'
+      },
+      adjacent: 10
+    },
+    {
+      seatNumber: 10,
+      bookedBy: null,
+      adjacent: 9
+    },
+    {
+      seatNumber: 11,
+      bookedBy: {
+        name: 'B',
+        age: 40,
+        gender: 'M'
+      },
+      adjacent: 12
+    },
+    {
+      seatNumber: 12,
+      bookedBy: {
+        name: 'B',
+        age: 40,
+        gender: 'M'
+      },
+      adjacent: 11
+    }
+  ]
+  expect(allocateSeats(8, bus))
     .toStrictEqual([])
 })
 

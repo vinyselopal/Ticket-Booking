@@ -1,5 +1,9 @@
+const getAvailableSeats = (bus) => {
+  return bus.filter(seat => !seat.bookedBy).map(seat => seat.seatNumber)
+}
+const allocateSeats = (totalPassengers, bus, passengers) => {
+  const availableSeats = getAvailableSeats(bus, totalPassengers)
 
-const allocateSeats = (availableSeats, totalPassengers, bus, passengers) => {
   if (totalPassengers === 1) return allocateSeat(availableSeats, bus, passengers)
   if (!availableSeats.length || availableSeats.length < totalPassengers) {
     return []
@@ -41,4 +45,4 @@ const allocateSeat = (availableSeats, bus, passengers) => {
   return [seat]
 }
 
-module.exports = { allocateSeats, allocateSeat }
+module.exports = { allocateSeats, allocateSeat, getAvailableSeats }

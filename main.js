@@ -7,12 +7,8 @@ const bookings = []
 const util = require('node:util')
 
 const { bookSeats } = require('./services/bookSeats')
-const { allocateSeats, allocateSeat } = require('./services/allocateSeats')
+const { allocateSeats } = require('./services/allocateSeats')
 const { calculatePayment } = require('./services/calculatePayment')
-
-const getAvailableSeats = (bus) => {
-  return bus.filter(seat => !seat.bookedBy).map(seat => seat.seatNumber)
-}
 
 const checkCopassenger = (bus, allocatedSeat, gender) => {
   return bus[bus[allocatedSeat - 1].adjacent - 1].bookedBy?.gender === gender ||
@@ -34,9 +30,8 @@ const confirmBooking = async (rl) => {
 }
 const main = async (input) => {
   const { totalPassengers, paymentMethod, passengers } = input
-  const availableSeats = getAvailableSeats(bus, totalPassengers)
 
-  const allocatedSeats = allocateSeats(availableSeats, totalPassengers, bus, passengers)
+  const allocatedSeats = allocateSeats(totalPassengers, bus, passengers)
 
   if (!allocatedSeats.length) {
     console.log('sorry no seats available')
