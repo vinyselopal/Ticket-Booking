@@ -1,16 +1,9 @@
-const fs = require('fs')
-const { passengerParser } = require('./services/passengerParser')
+const readline = require('readline').createInterface(process.stdin, process.stdout)
+
 const { bookSeats } = require('./services/bookSeats')
 const { allocateSeats, allocateSeat } = require('./services/allocateSeats')
 const { calculatePayment } = require('./services/calculatePayment')
-const { validatePaymentMethod } = require('./utils')
-const readline = require('readline').createInterface(process.stdin, process.stdout)
-
-const bus = JSON.parse(fs.readFileSync('./data/bus.json'))
-
-const getAvailableSeats = (bus) => {
-  return bus.filter(seat => !seat.bookedBy).map(seat => seat.seatNumber)
-}
+const { inputParser, getAvailableSeats, bus } = require('./utils')
 
 const main = async (input) => {
   const { totalPassengers, paymentMethod, passengers } = input
@@ -25,7 +18,8 @@ const main = async (input) => {
     ? await allocateSeat(availableSeats, bus, passengers, readline)
     : allocateSeats(availableSeats, totalPassengers)
   if (!allocatedSeats.length) {
-    return console.log('seats not allocated\n')
+    console.log('seats not allocated')
+    return 'seats not allocated'
   }
   const paymentAmount = calculatePayment(totalPassengers, paymentMethod)
 
@@ -41,6 +35,7 @@ const main = async (input) => {
 
 const getUserInput = () => {
   console.log('Please enter the input:')
+
   let input = {
     totalPassengers: 0,
     passengers: [],
@@ -53,14 +48,15 @@ const getUserInput = () => {
     lineNumber++
 
     if (lineNumber === 0) {
-      const totalPassengers = parseInt(line.trim(), 10)
-      if (isNaN(line)) {
+      const totalPassengers = inputParser('totalPassengers', line)
+      if (!totalPassengers) {
         console.log('not a valid input for number of passengers\n')
         lineNumber = -1
+        return
       }
       input.totalPassengers = totalPassengers
     } else if (lineNumber <= input.totalPassengers) {
-      const passenger = passengerParser(line)
+      const passenger = inputParser('passenger', line)
       if (!passenger) {
         console.log('not valid passenger details')
         lineNumber = -1
@@ -69,7 +65,8 @@ const getUserInput = () => {
       input.passengers.push(passenger)
     }
     if (lineNumber > input.totalPassengers) {
-      if (!validatePaymentMethod(line)) {
+      const paymentMethod = inputParser('paymentMethod', line)
+      if (!paymentMethod) {
         console.log('not a valid payment method')
         lineNumber = -1
         return

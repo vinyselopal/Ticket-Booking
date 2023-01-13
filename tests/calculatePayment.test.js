@@ -1,9 +1,11 @@
 const { calculatePayment } = require('../services/calculatePayment')
 
-const totalPassengers = 1
-const paymentMethod = 'card'
+test('calculate payment', () => {
+  expect(calculatePayment(1, 'card'))
+    .toBe(517.4)
+})
 
 test('calculate payment', () => {
-  expect(calculatePayment(totalPassengers, paymentMethod))
-    .toBe(517.4)
+  expect(calculatePayment(2, 'net-banking'))
+    .toBe(1029.6000000000001)
 })

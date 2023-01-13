@@ -9,7 +9,7 @@ const bus = [
     bookedBy: null
   }]
 
-const allocatedSeats = [1, 2]
+const allocatedSeats = [1]
 const passengers = [{
   name: 'A',
   age: 21,

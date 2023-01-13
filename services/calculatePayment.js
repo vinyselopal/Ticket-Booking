@@ -1,8 +1,5 @@
-const fs = require('fs')
-
+const { paymentData } = require('../utils')
 const calculatePayment = (totalPassengers, paymentMethod) => {
-  const paymentData = JSON.parse(fs.readFileSync('./data/paymentData.json', 'utf8'))
-
   const discount = paymentData.discounts[paymentMethod]
   const additionalFees = Object.values(paymentData['additional-fees'])
     .reduce((prev, curr) => prev + curr, 0)
