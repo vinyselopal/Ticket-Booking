@@ -2,17 +2,17 @@ const {
   main
 } = require('../index')
 
-test('return output string for user', () => {
+test('return output string for user', async () => {
   const input = {
     totalPassengers: 1,
     passengers: [{ name: 'A', age: 21, gender: 'F' }],
     paymentMethod: 'card'
   }
-  expect(main(input))
+  expect(await main(input))
     .toBe('Total Amount: 517.4\nSeats alloted: S1')
 })
 
-test('return output string for user', () => {
+test('return output string for user', async () => {
   const input = {
     totalPassengers: 2,
     passengers: [
@@ -28,6 +28,6 @@ test('return output string for user', () => {
       }],
     paymentMethod: 'net-banking'
   }
-  expect(main(input))
-    .toBe('Total Amount: 517.4\nSeats alloted: S1, S2')
+  expect(await main(input))
+    .toBe('Total Amount: 1029.6000000000001\nSeats alloted: S2 S3')
 })

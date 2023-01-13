@@ -1,6 +1,6 @@
 const util = require('node:util')
 
-const allocateSeats = async (availableSeats, totalPassengers) => {
+const allocateSeats = (availableSeats, totalPassengers) => {
   const consecutiveSegments = []
   let segment = [availableSeats[0]]
 
