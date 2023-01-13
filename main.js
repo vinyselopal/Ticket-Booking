@@ -30,10 +30,7 @@ const confirmBooking = async (rl) => {
   const response = await question(`no available seats besides same gender, 
         do you still want to book the seat? y/n\n`)
 
-  if (response === 'y' || response === 'Y') {
-    return true
-  }
-  return false
+  return (response === 'y' || response === 'Y')
 }
 const main = async (input) => {
   const { totalPassengers, paymentMethod, passengers } = input
