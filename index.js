@@ -15,7 +15,14 @@ const getAvailableSeats = (bus) => {
 
 const checkCopassenger = (bus, allocatedSeat, gender) => {
   return bus[bus[allocatedSeat - 1].adjacent - 1].bookedBy?.gender === gender ||
-  !bus[bus[allocatedSeat - 1].adjacent - 1].bookedBy
+    !bus[bus[allocatedSeat - 1].adjacent - 1].bookedBy
+}
+
+const createOutputString = (paymentAmount, allocatedSeats) => {
+  return 'Total Amount: ' + paymentAmount +
+    '\n' + 'Seats alloted: ' +
+    allocatedSeats.map(seatNumber => 'S' + seatNumber)
+      .join(' ')
 }
 
 const confirmBooking = async (rl) => {
@@ -56,10 +63,8 @@ const main = async (input) => {
   const paymentAmount = calculatePayment(totalPassengers, paymentMethod)
 
   bookSeats(bus, allocatedSeats, passengers)
-  const output = 'Total Amount: ' + paymentAmount +
-  '\n' + 'Seats alloted: ' +
-  allocatedSeats.map(seatNumber => 'S' + seatNumber)
-    .join(' ')
+
+  const output = createOutputString(paymentAmount, allocatedSeats)
 
   console.log(output)
   return output
@@ -122,5 +127,8 @@ getUserInput()
 
 module.exports = {
   main,
-  getUserInput
+  getUserInput,
+  createOutputString,
+  checkCopassenger,
+  getAvailableSeats
 }

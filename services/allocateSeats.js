@@ -25,7 +25,6 @@ const allocateSeats = (availableSeats, totalPassengers) => {
 }
 
 const allocateSeat = (availableSeats, bus, passengers) => {
-  console.log('availableSeats', availableSeats)
   if (!availableSeats.length) {
     return []
   }
@@ -35,7 +34,6 @@ const allocateSeat = (availableSeats, bus, passengers) => {
     .bookedBy?.gender === gender ||
     !bus[bus[seat - 1].adjacent - 1].bookedBy))
 
-  console.log("seat", seat)
   if (!seat) {
     return [availableSeats[0]]
   }
