@@ -21,20 +21,8 @@ const totalPassengersParser = (line) => {
   return totalPassengers
 }
 
-const inputParser = (inputField, line) => {
-  return parsers[inputField](line)
-}
-
-const parsers = {
-  totalPassengers: totalPassengersParser,
-  passenger: passengerParser,
-  paymentMethod: paymentMethodParser
-}
-
 module.exports = {
   paymentMethodParser,
   passengerParser,
-  totalPassengersParser,
-  inputParser,
-  parsers
+  totalPassengersParser
 }

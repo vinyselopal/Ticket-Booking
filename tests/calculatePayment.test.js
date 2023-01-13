@@ -2,15 +2,24 @@ const { calculatePayment } = require('../services/calculatePayment')
 
 test('calculate payment', () => {
   expect(calculatePayment(1, 'card'))
-    .toBe(518)
+    .toStrictEqual({
+      paymentPerUser: 518,
+      totalPayment: 518
+    })
 })
 
 test('calculate payment', () => {
   expect(calculatePayment(2, 'net-banking'))
-    .toBe(1030)
+    .toStrictEqual({
+      paymentPerUser: 515,
+      totalPayment: 1030
+    })
 })
 
 test('calculate payment', () => {
   expect(calculatePayment(3, 'net-banking'))
-    .toBe(1545)
+    .toStrictEqual({
+      paymentPerUser: 515,
+      totalPayment: 1545
+    })
 })

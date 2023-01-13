@@ -33,12 +33,14 @@ test('mutates bus data', () => {
       gender: 'NBQ'
     }]
 
-  bus = bookSeats(bus, allocatedSeats, passengers)
+  const bookings = []
+  bus = bookSeats(bus, allocatedSeats, passengers, bookings, 100, 'card')
 
   allocatedSeats.forEach((seat, index) => {
     expect(bus[seat - 1].bookedBy)
       .toStrictEqual(passengers[index])
   })
+  expect(bookings.length).toStrictEqual(2)
 
   const passenger = {
     name: 'B',
@@ -46,7 +48,7 @@ test('mutates bus data', () => {
     gender: 'NBQ'
   }
 
-  bookSeats(bus, [1], [passenger])
+  bookSeats(bus, [1], [passenger], bookings, 100, 'card')
   expect(bus[0].bookedBy)
     .toStrictEqual(passenger)
 })

@@ -7,12 +7,12 @@ const calculatePayment = (totalPassengers, paymentMethod) => {
     .reduce((prev, curr) => prev + curr, 0)
   const ticket = paymentData.ticket
 
-  const paymentAmount = ticket *
+  const paymentPerUser = Math.ceil(ticket *
     (1 - (discount / 100)) *
-    (1 + (additionalFees / 100)) *
-    totalPassengers
+    (1 + (additionalFees / 100))
+  )
 
-  return Math.ceil(paymentAmount)
+  return { paymentPerUser, totalPayment: paymentPerUser * totalPassengers }
 }
 
 module.exports = { calculatePayment }

@@ -3,7 +3,7 @@ const {
   createOutputString,
   checkCopassenger,
   getAvailableSeats
-} = require('../index')
+} = require('../main')
 
 test('return output string for user', async () => {
   const input = {
@@ -17,7 +17,7 @@ test('return output string for user', async () => {
     paymentMethod: 'card'
   }
   expect(await main(input))
-    .toBe('Total Amount: 517\nSeats alloted: S1')
+    .toBe('Total Amount: 518\nSeats alloted: S1')
 })
 
 test('return output string for user', async () => {
