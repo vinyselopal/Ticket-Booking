@@ -1,71 +1,62 @@
- [
-        {
-            "seatNumber": 1,
-            "bookedBy": null,
-            "adjacent": 2
-        },
-        {
-            "seatNumber": 2,
-            "bookedBy": null,
-            "adjacent": 1
-        },
-        {
-            "seatNumber": 3,
-            "bookedBy": null,
-            "adjacent": 4
-        },
-        {
-            "seatNumber": 4,
-            "bookedBy": null,
-            "adjacent": 3
-
-        },
-        {
-            "seatNumber": 5,
-            "bookedBy": null,
-            "adjacent": 6
-
-        },
-        {
-            "seatNumber": 6,
-            "bookedBy": null,
-            "adjacent": 5
-
-        },
-        {
-            "seatNumber": 7,
-            "bookedBy": null,
-            "adjacent": 8
-
-        },
-        {
-            "seatNumber": 8,
-            "bookedBy": null,
-            "adjacent": 7
-
-        },
-        {
-            "seatNumber": 9,
-            "bookedBy": null,
-            "adjacent": 10
-
-        },
-        {
-            "seatNumber": 10,
-            "bookedBy": null,
-            "adjacent": 9
-
-        },
-        {
-            "seatNumber": 11,
-            "bookedBy": null,
-            "adjacent": 12
-
-        },
-        {
-            "seatNumber": 12,
-            "bookedBy": null,
-            "adjacent": 11
-
-        }
-    ]
+[
+    {
+        "seatNumber": 1,
+        "bookedBy": null,
+        "adjacent": 2
+    },
+    {
+        "seatNumber": 2,
+        "bookedBy": null,
+        "adjacent": 1
+    },
+    {
+        "seatNumber": 3,
+        "bookedBy": null,
+        "adjacent": 4
+    },
+    {
+        "seatNumber": 4,
+        "bookedBy": null,
+        "adjacent": 3
+    },
+    {
+        "seatNumber": 5,
+        "bookedBy": null,
+        "adjacent": 6
+    },
+    {
+        "seatNumber": 6,
+        "bookedBy": null,
+        "adjacent": 5
+    },
+    {
+        "seatNumber": 7,
+        "bookedBy": null,
+        "adjacent": 8
+    },
+    {
+        "seatNumber": 8,
+        "bookedBy": null,
+        "adjacent": 7
+    },
+    {
+        "seatNumber": 9,
+        "bookedBy": null,
+        "adjacent": 10
+    },
+    {
+        "seatNumber": 10,
+        "bookedBy": null,
+        "adjacent": 9
+    },
+    {
+        "seatNumber": 11,
+        "bookedBy": null,
+        "adjacent": 12
+    },
+    {
+        "seatNumber": 12,
+        "bookedBy": null,
+        "adjacent": 11
+    }
+]

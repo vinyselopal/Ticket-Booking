@@ -35,7 +35,7 @@ test('selects seat (first available)', () => {
     .toStrictEqual([1])
 })
 
-test('selects seat (first available opp. same gender)', () => {
+test('selects seat (first available seat which is not besides opposite gender)', () => {
   const bus = [
     {
       seatNumber: 1,
@@ -59,6 +59,49 @@ test('selects seat (first available opp. same gender)', () => {
     {
       seatNumber: 4,
       bookedBy: null,
+      adjacent: 3
+    }
+  ]
+
+  const passengers = [
+    {
+      name: 'B',
+      age: 21,
+      gender: 'F'
+    }
+  ]
+  expect(allocateSeat([2, 3], bus, passengers))
+    .toStrictEqual([3])
+})
+
+test('selects seat (first available seat besides same gender)', () => {
+  const bus = [
+    {
+      seatNumber: 1,
+      bookedBy: {
+        name: 'A',
+        age: 21,
+        gender: 'M'
+      },
+      adjacent: 2
+    },
+    {
+      seatNumber: 2,
+      bookedBy: null,
+      adjacent: 1
+    },
+    {
+      seatNumber: 3,
+      bookedBy: null,
+      adjacent: 4
+    },
+    {
+      seatNumber: 4,
+      bookedBy: {
+        name: 'A',
+        age: 21,
+        gender: 'F'
+      },
       adjacent: 3
     }
   ]
