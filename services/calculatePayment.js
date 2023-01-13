@@ -12,7 +12,7 @@ const calculatePayment = (totalPassengers, paymentMethod) => {
     (1 + (additionalFees / 100)) *
     totalPassengers
 
-  return paymentAmount
+  return Math.round(paymentAmount)
 }
 
 module.exports = { calculatePayment }

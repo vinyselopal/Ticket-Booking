@@ -38,3 +38,13 @@ test('parses paymentMethod string', () => {
   expect(paymentMethodParser('card'))
     .toStrictEqual('card')
 })
+
+test('parses totalPassengers string', () => {
+  expect(totalPassengersParser('-10'))
+    .toStrictEqual(null)
+})
+
+test('parses passenger details string', () => {
+  expect(passengerParser('A -20 F'))
+    .toStrictEqual(null)
+})

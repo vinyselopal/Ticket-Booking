@@ -8,7 +8,7 @@ const paymentMethodParser = (line) => paymentData.paymentMethods
 const passengerParser = (line) => {
   const [name, ageString, gender] = line.split(' ')
   const age = parseInt(ageString, 10)
-  if (isNaN(ageString) || !['M', 'F', 'NBQ'].includes(gender)) {
+  if (isNaN(ageString) || !['M', 'F', 'NBQ'].includes(gender) || age < 0) {
     return null
   }
   return { name, age, gender }
@@ -17,7 +17,7 @@ const passengerParser = (line) => {
 const totalPassengersParser = (line) => {
   const totalPassengers = parseInt(line.trim(), 10)
 
-  if (isNaN(line)) return null
+  if (isNaN(line) || totalPassengers < 0) return null
   return totalPassengers
 }
 

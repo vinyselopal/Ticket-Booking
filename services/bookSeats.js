@@ -3,7 +3,7 @@ const bookSeats = (bus, allocatedSeats, passengers) => {
 
   bus.forEach(seat => {
     if (counter < passengers.length &&
-        (seat.seatNumber) === allocatedSeats[counter]) {
+      (seat.seatNumber) === allocatedSeats[counter]) {
       seat.bookedBy = passengers[counter]
       counter++
     }

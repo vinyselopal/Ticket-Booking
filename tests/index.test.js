@@ -9,7 +9,7 @@ test('return output string for user', async () => {
     paymentMethod: 'card'
   }
   expect(await main(input))
-    .toBe('Total Amount: 517.4\nSeats alloted: S1')
+    .toBe('Total Amount: 517\nSeats alloted: S1')
 })
 
 test('return output string for user', async () => {
@@ -29,5 +29,5 @@ test('return output string for user', async () => {
     paymentMethod: 'net-banking'
   }
   expect(await main(input))
-    .toBe('Total Amount: 1029.6000000000001\nSeats alloted: S2 S3')
+    .toBe('Total Amount: 1030\nSeats alloted: S2 S3')
 })

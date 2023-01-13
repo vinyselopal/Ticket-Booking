@@ -1,6 +1,6 @@
 
 const allocateSeats = (availableSeats, totalPassengers) => {
-  if (!availableSeats.length) {
+  if (!availableSeats.length || availableSeats.length < totalPassengers) {
     return []
   }
   const consecutiveSegments = []
@@ -35,7 +35,7 @@ const allocateSeat = (availableSeats, bus, passengers) => {
     .bookedBy?.gender === gender ||
     !bus[bus[seat - 1].adjacent - 1].bookedBy))
 
-  console.log('seat', seat)
+  console.log("seat", seat)
   if (!seat) {
     return [availableSeats[0]]
   }
