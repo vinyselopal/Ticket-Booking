@@ -2,33 +2,9 @@ const util = require('node:util')
 
 const allocateSeats = async (unbookedSeatNumbers, totalPassengers, bus, passengers, rl) => {
   if (totalPassengers === 1) {
-    const bus = [
-      {
-        seatNumber: 1,
-        bookedBy: {
-          gender: null
-        }
-      },
-      {
-        seatNumber: 2,
-        bookedBy: {
-          gender: 'M'
-        }
-      },
-      {
-        seatNumber: 3,
-        bookedBy: null
-      },
-      {
-        seatNumber: 4,
-        bookedBy: {
-          gender: 'M'
-        }
-      }
-    ]
     const gender = passengers[0].gender
     const seat = bus.find((seat, index) => ((seat[index - 1]?.bookedBy.gender === gender &&
-  seat[index + 1]?.bookedBy.gender === gender) || (seat[index - 1]?.bookedBy === null &&
+  seat[index + 1]?.bookedBy.gender === gender) || (seat[index - 1]?.bookedBy === null ||
     seat[index + 1]?.bookedBy === null)) && unbookedSeatNumbers.includes(seat.seatNumber))?.seatNumber
 
     if (!seat) {
