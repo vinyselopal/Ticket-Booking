@@ -3,12 +3,9 @@ const util = require('node:util')
 const allocateSeats = async (unbookedSeatNumbers, totalPassengers, bus, passengers, rl) => {
   if (totalPassengers === 1) {
     const gender = passengers[0].gender
-    const seat = bus.find((seat, index) => ((seat[index - 1]?.bookedBy.gender === gender &&
-  seat[index + 1]?.bookedBy.gender === gender) || (seat[index - 1]?.bookedBy === null ||
-    seat[index + 1]?.bookedBy === null)) && unbookedSeatNumbers.includes(seat.seatNumber))?.seatNumber
+    const seat = bus.find((seat) => (bus[seat.adjacent - 1].bookedBy?.gender === gender || !bus[seat.adjacent - 1].bookedBy))?.seatNumber
 
     if (!seat) {
-      console.log('here')
       const question = util.promisify(rl.question).bind(rl)
       const response = await question('no available seats besides same gender, do you still want to book the seat? y/n\n')
       if (response === 'y' || response === 'Y') {
