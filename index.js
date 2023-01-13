@@ -1,7 +1,7 @@
 const fs = require('fs')
 const { passengerParser } = require('./services/passengerParser')
 const { bookSeats } = require('./services/bookSeats')
-const { allocateSeats } = require('./services/allocateSeats')
+const { allocateSeats, allocateSeat } = require('./services/allocateSeats')
 const { calculatePayment } = require('./services/calculatePayment')
 const { validatePaymentMethod } = require('./utils')
 const readline = require('readline').createInterface(process.stdin, process.stdout)
@@ -21,7 +21,9 @@ const main = async (input) => {
     return 'Sorry, seats not available'
   }
 
-  const allocatedSeats = await allocateSeats(availableSeats, totalPassengers, bus, passengers, readline)
+  const allocatedSeats = totalPassengers === 1
+    ? await allocateSeat(availableSeats, bus, passengers, readline)
+    : allocateSeats(availableSeats, totalPassengers)
   if (!allocatedSeats.length) {
     return console.log('seats not allocated\n')
   }
