@@ -7,7 +7,7 @@ const bookings = []
 const util = require('node:util')
 
 const { bookSeats } = require('./services/bookSeats')
-const { allocateSeats } = require('./services/allocateSeats')
+const { getSeats } = require('./services/getSeats')
 const { calculatePayment } = require('./services/calculatePayment')
 
 const createOutputString = (paymentAmount, allocatedSeats) => {
@@ -27,7 +27,7 @@ const confirmBooking = async (rl) => {
 const main = async (input) => {
   const { totalPassengers, paymentMethod, passengers } = input
 
-  const { allocatedSeats, shouldConfirmSeat } = allocateSeats(bus, passengers)
+  const { allocatedSeats, shouldConfirmSeat } = getSeats(bus, passengers)
 
   if (!allocatedSeats.length) {
     console.log('sorry no seats available')

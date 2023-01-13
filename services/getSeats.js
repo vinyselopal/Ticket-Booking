@@ -7,11 +7,11 @@ const getAvailableSeats = (bus) => {
   return bus.filter(seat => !seat.bookedBy).map(seat => seat.seatNumber)
 }
 
-const allocateSeats = (bus, passengers) => {
+const getSeats = (bus, passengers) => {
   const totalPassengers = passengers.length
   const availableSeats = getAvailableSeats(bus, totalPassengers)
 
-  if (totalPassengers === 1) return allocateSeat(availableSeats, bus, passengers)
+  if (totalPassengers === 1) return getOneSeat(availableSeats, bus, passengers)
   if (!availableSeats.length || availableSeats.length < totalPassengers) {
     return { shouldConfirmSeat: false, allocatedSeats: [] }
   }
@@ -36,7 +36,7 @@ const allocateSeats = (bus, passengers) => {
   return { shouldConfirmSeat: false, allocatedSeats: bookings }
 }
 
-const allocateSeat = (availableSeats, bus, passengers) => {
+const getOneSeat = (availableSeats, bus, passengers) => {
   if (!availableSeats.length) {
     return { shouldConfirmSeat: false, allocatedSeats: [] }
   }
@@ -54,4 +54,4 @@ const allocateSeat = (availableSeats, bus, passengers) => {
   return { shouldConfirmSeat, allocatedSeats: [seat] }
 }
 
-module.exports = { allocateSeats, allocateSeat, getAvailableSeats, checkCopassenger }
+module.exports = { getSeats, getOneSeat, getAvailableSeats, checkCopassenger }

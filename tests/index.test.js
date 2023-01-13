@@ -3,7 +3,7 @@ const {
   createOutputString
 
 } = require('../main')
-const { checkCopassenger } = require('../services/allocateSeats')
+const { checkCopassenger } = require('../services/getSeats')
 
 test('return output string for user', async () => {
   const input = {
