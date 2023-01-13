@@ -1,6 +1,9 @@
 const util = require('node:util')
 
 const allocateSeats = (availableSeats, totalPassengers) => {
+  if (!availableSeats.length) {
+    return []
+  }
   const consecutiveSegments = []
   let segment = [availableSeats[0]]
 
@@ -29,6 +32,10 @@ const findSeat = (availableSeats, bus, gender) => {
 }
 
 const allocateSeat = async (availableSeats, bus, passengers, rl) => {
+  if (!availableSeats.length) {
+    return []
+  }
+
   const gender = passengers[0].gender
   const seat = findSeat(availableSeats, bus, gender)
 

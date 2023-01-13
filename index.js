@@ -16,17 +16,13 @@ const main = async (input) => {
   const { totalPassengers, paymentMethod, passengers } = input
   const availableSeats = getAvailableSeats(bus, totalPassengers)
 
-  if (!availableSeats.length) {
-    console.log('Sorry,  seats not available')
-    return 'Sorry, seats not available'
-  }
-
   const allocatedSeats = totalPassengers === 1
     ? await allocateSeat(availableSeats, bus, passengers, readline)
     : allocateSeats(availableSeats, totalPassengers)
+
   if (!allocatedSeats.length) {
-    console.log('seats not allocated')
-    return 'seats not allocated'
+    console.log('sorry no seats available')
+    return 'sorry no seats available'
   }
   console.log(allocatedSeats, 'allocatedSeats')
 
