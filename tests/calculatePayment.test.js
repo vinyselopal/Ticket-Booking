@@ -2,7 +2,7 @@ const { calculatePayment } = require('../services/calculatePayment')
 
 test('calculate payment', () => {
   expect(calculatePayment(1, 'card'))
-    .toBe(517)
+    .toBe(518)
 })
 
 test('calculate payment', () => {
@@ -12,5 +12,5 @@ test('calculate payment', () => {
 
 test('calculate payment', () => {
   expect(calculatePayment(3, 'net-banking'))
-    .toBe(1544)
+    .toBe(1545)
 })

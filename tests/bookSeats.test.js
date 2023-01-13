@@ -1,7 +1,7 @@
 const { bookSeats } = require('../services/bookSeats')
 
 test('mutates bus data', () => {
-  const bus = [
+  let bus = [
     {
       seatNumber: 1,
       bookedBy: null
@@ -33,10 +33,20 @@ test('mutates bus data', () => {
       gender: 'NBQ'
     }]
 
-  bookSeats(bus, allocatedSeats, passengers)
+  bus = bookSeats(bus, allocatedSeats, passengers)
 
   allocatedSeats.forEach((seat, index) => {
     expect(bus[seat - 1].bookedBy)
       .toStrictEqual(passengers[index])
   })
+
+  const passenger = {
+    name: 'B',
+    age: 21,
+    gender: 'NBQ'
+  }
+
+  bookSeats(bus, [1], [passenger])
+  expect(bus[0].bookedBy)
+    .toStrictEqual(passenger)
 })
