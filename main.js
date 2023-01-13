@@ -20,10 +20,9 @@ const checkCopassenger = (bus, allocatedSeat, gender) => {
 }
 
 const createOutputString = (paymentAmount, allocatedSeats) => {
-  return 'Total Amount: ' + paymentAmount +
-    '\n' + 'Seats alloted: ' +
-    allocatedSeats.map(seatNumber => 'S' + seatNumber)
-      .join(' ')
+  const seatsStr = allocatedSeats.map(seatNumber => 'S' + seatNumber)
+    .join(' ')
+  return `Total Amount: ${paymentAmount}\nSeats alloted: ${seatsStr}`
 }
 
 const confirmBooking = async (rl) => {
