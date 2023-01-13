@@ -1,8 +1,5 @@
 const fs = require('fs')
-
 const paymentData = JSON.parse(fs.readFileSync('./data/paymentData.json', 'utf8'))
-
-const bus = JSON.parse(fs.readFileSync('./data/bus.json'))
 
 const paymentMethodParser = (line) => paymentData.paymentMethods
   .find(obj => obj.method === line && obj.enabled)?.method ||
@@ -34,17 +31,10 @@ const parsers = {
   paymentMethod: paymentMethodParser
 }
 
-const getAvailableSeats = (bus) => {
-  return bus.filter(seat => !seat.bookedBy).map(seat => seat.seatNumber)
-}
-
 module.exports = {
   paymentMethodParser,
   passengerParser,
-  paymentData,
   totalPassengersParser,
   inputParser,
-  parsers,
-  getAvailableSeats,
-  bus
+  parsers
 }

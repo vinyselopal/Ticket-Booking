@@ -1,4 +1,6 @@
-const { paymentData } = require('../utils')
+const fs = require('fs')
+const paymentData = JSON.parse(fs.readFileSync('./data/paymentData.json', 'utf8'))
+
 const calculatePayment = (totalPassengers, paymentMethod) => {
   const discount = paymentData.discounts[paymentMethod]
   const additionalFees = Object.values(paymentData['additional-fees'])

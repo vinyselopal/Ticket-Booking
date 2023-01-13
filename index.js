@@ -1,9 +1,16 @@
 const readline = require('readline').createInterface(process.stdin, process.stdout)
+const fs = require('fs')
+
+const bus = JSON.parse(fs.readFileSync('./data/bus.json'))
 
 const { bookSeats } = require('./services/bookSeats')
 const { allocateSeats, allocateSeat } = require('./services/allocateSeats')
 const { calculatePayment } = require('./services/calculatePayment')
-const { inputParser, getAvailableSeats, bus } = require('./utils')
+const { inputParser } = require('./services/parsers')
+
+const getAvailableSeats = (bus) => {
+  return bus.filter(seat => !seat.bookedBy).map(seat => seat.seatNumber)
+}
 
 const main = async (input) => {
   const { totalPassengers, paymentMethod, passengers } = input
@@ -29,7 +36,7 @@ const main = async (input) => {
   allocatedSeats.map(seatNumber => 'S' + seatNumber)
     .join(' ')
 
-  console.log(output)
+  console.log('output', output)
   return output
 }
 

@@ -1,4 +1,4 @@
-const { passengerParser, paymentMethodParser, totalPassengersParser } = require('../utils')
+const { passengerParser, paymentMethodParser, totalPassengersParser } = require('../services/parsers')
 
 test('parses passenger details string', () => {
   expect(passengerParser('A 20 F'))
