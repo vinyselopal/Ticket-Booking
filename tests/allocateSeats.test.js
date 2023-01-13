@@ -1,13 +1,9 @@
-const { allocateSeats, allocateSeat, findSeat } = require('../services/allocateSeats')
+const { allocateSeats, allocateSeat } = require('../services/allocateSeats')
 
 const bus = [
   {
     seatNumber: 1,
-    bookedBy: {
-      name: 'A',
-      age: 21,
-      gender: 'M'
-    },
+    bookedBy: null,
     adjacent: 2
   },
   {
@@ -40,19 +36,7 @@ test('selects consecutive seats', () => {
     .toStrictEqual([1, 2, 3, 5, 6])
 })
 
-test('selects a seat', () => {
-  const bus = [
-    {
-      seatNumber: 1,
-      bookedBy: null,
-      adjacent: 2
-    },
-    {
-      seatNumber: 2,
-      bookedBy: null,
-      adjacent: 1
-    }
-  ]
-  expect(findSeat([1, 2], bus, 'F'))
-    .toStrictEqual(1)
+test('selects seat', () => {
+  expect(allocateSeat([1, 2, 3, 5, 6, 10], bus, passengers))
+    .toStrictEqual([1])
 })

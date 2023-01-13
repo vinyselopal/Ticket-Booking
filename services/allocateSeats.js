@@ -1,4 +1,3 @@
-const util = require('node:util')
 
 const allocateSeats = (availableSeats, totalPassengers) => {
   if (!availableSeats.length) {
@@ -25,31 +24,22 @@ const allocateSeats = (availableSeats, totalPassengers) => {
   return bookings
 }
 
-const findSeat = (availableSeats, bus, gender) => {
-  const seatNumber = availableSeats.find((seat) => (bus[bus[seat - 1].adjacent - 1].bookedBy?.gender === gender ||
-  !bus[bus[seat - 1].adjacent - 1].bookedBy))
-  return seatNumber
-}
-
-const allocateSeat = async (availableSeats, bus, passengers, rl) => {
+const allocateSeat = (availableSeats, bus, passengers) => {
+  console.log('availableSeats', availableSeats)
   if (!availableSeats.length) {
     return []
   }
 
   const gender = passengers[0].gender
-  const seat = findSeat(availableSeats, bus, gender)
+  const seat = availableSeats.find((seat) => (bus[bus[seat - 1].adjacent - 1]
+    .bookedBy?.gender === gender ||
+    !bus[bus[seat - 1].adjacent - 1].bookedBy))
 
+  console.log('seat', seat)
   if (!seat) {
-    const question = util.promisify(rl.question).bind(rl)
-    const response = await question(`no available seats besides same gender, 
-      do you still want to book the seat? y/n\n`)
-
-    if (response === 'y' || response === 'Y') {
-      return [availableSeats[0]]
-    }
-    return []
+    return [availableSeats[0]]
   }
   return [seat]
 }
 
-module.exports = { allocateSeats, allocateSeat, findSeat }
+module.exports = { allocateSeats, allocateSeat }
